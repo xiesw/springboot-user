@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>登录</title>
+</head>
+<body>
+	<p th:if="${responseVO != null && responseVO.message != null}"
+		th:text="${responseVO.message}"></p>
+	<form th:action="@{/toLogin}" th:object="${loginDTO}" method="post">
+		<label for="name">用户名: </label> <input type="text" name="name"
+			id="name"
+			th:value="${registerDTO !=null && registerDTO.name != null}?${registerDTO.name}:''" />
+		<br /> <label for="password">密码: </label> <input type="text"
+			name="password" id="password" /> <br /> <label for="type"
+			style="float: left;">用户类型: </label> <select name="type"
+			style="float: left;">
+			<option value="O">普通用户</option>
+			<option value="A">管理员用户</option>
+		</select> <br /> <input type="submit" value="登录" style="float: left;">
+	</form>
+</body>
+</html>

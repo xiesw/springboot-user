@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>登录后的首页</title>
+</head>
+<body>
+	<h4>
+		欢迎您：<span style="color: red"
+			th:text="${session.name}?${session.name}:'（您未登录）'"></span>, 用户身份是：<span
+			style="color: red"
+			th:text="${session.typeName}?${session.typeName}:'（您未登录）'"></span>
+	</h4>
+	<th:block th:if="${session.name != null}">
+		<a th:href="@{/toView}" th:if="${session.type == 'A'}">查看用户列表</a>
+		<a th:href="@{/add}" th:if="${session.type == 'A'}">添加用户</a>
+		<a th:href="@{/modify}">修改密码</a>
+		<a th:href="@{/loginOut}">注销登录</a>
+	</th:block>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>修改密码</title>
+</head>
+<body>
+	<p th:if="${responseVO != null && responseVO.message != null}"
+		th:text="${responseVO.message}"></p>
+	<th:block th:if="${session.name != null}">
+		<form th:action="@{/toModify}" th:object="${modifyDTO}" method="post">
+			<label for="password">原密码:</label> <input type="text" name="password"
+				id="password" /> <br /> <label for="newPassword">新密码:</label> <input
+				type="text" name="newPassword" id="newPassword" /><br /> <label
+				for="confirmNewPassword">确认新密码:</label> <input type="text"
+				name="confirmNewPassword" id="confirmNewPassword" /><br /> <input
+				type="submit" value="确认修改">
+		</form>
+	</th:block>
+</body>
+</html>

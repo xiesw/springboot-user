@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>查看用户列表</title>
+</head>
+<body>
+	<table border="1">
+		<tr>
+			<td>ID</td>
+			<td>名字</td>
+			<td>用户类型</td>
+			<td>注册时间</td>
+			<td>操作类型</td>
+		</tr>
+		<th:block th:if="${session.name != null && session.type == 'A'}">
+			<!-- 循环展示普通用户清单 -->
+			<th:block th:if="${lstViewVOs != null}">
+				<tr th:each="ViewVO : ${lstViewVOs}">
+					<td th:text="${ViewVO.id}"></td>
+					<td th:text="${ViewVO.name}"></td>
+					<td th:text="${ViewVO.type}"></td>
+					<td th:text="${ViewVO.gmtCreate}"></td>
+					<td><a th:href="@{/delete(id=${ViewVO.id})}">删除</a></td>
+				</tr>
+			</th:block>
+	</table>
+	</th:block>
+</body>
+</html>
