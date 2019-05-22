@@ -19,6 +19,7 @@ import com.gorge4j.user.dto.LoginDTO;
 import com.gorge4j.user.dto.ModifyDTO;
 import com.gorge4j.user.dto.RegisterDTO;
 import com.gorge4j.user.util.Base64Util;
+import com.gorge4j.user.util.Md5Util;
 import com.gorge4j.user.vo.ResponseVO;
 import com.gorge4j.user.vo.ViewVO;
 
@@ -72,7 +73,7 @@ public class UserServiceImpl implements UserService {
             pstmt = conn.prepareStatement(strSql);
             // 下面5行语句设置占位符里的各个参数（逐一替换前面一句里的 ？占位符），注意参数类型
             pstmt.setString(1, registerDTO.getName());
-            pstmt.setString(2, registerDTO.getPassword());
+            pstmt.setString(2, Md5Util.md5(registerDTO.getPassword()));
             pstmt.setString(3, "O");
             pstmt.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
             pstmt.setDate(5, new java.sql.Date(new java.util.Date().getTime()));
@@ -121,8 +122,8 @@ public class UserServiceImpl implements UserService {
             stmt = conn.createStatement();
             // 构造查询用户记录的 SQL 语句，此语句中使用了数据库表别名
             String strSql = "SELECT u.name, u.type FROM user_manage_demo AS u WHERE u.name = '" + loginDTO.getName()
-                    + "' AND u.password = '" + loginDTO.getPassword() + "' AND u.type = '" + loginDTO.getType()
-                    + "' AND u.is_delete = false";
+                    + "' AND u.password = '" + Md5Util.md5(loginDTO.getPassword()) + "' AND u.type = '"
+                    + loginDTO.getType() + "' AND u.is_delete = false";
             rs = stmt.executeQuery(strSql);
             // 如果数据库不存在记录，则返回登录失败
             if (!rs.next()) {
@@ -186,7 +187,7 @@ public class UserServiceImpl implements UserService {
             pstmt = conn.prepareStatement(strSql);
             // 下面5行语句设置占位符里的各个参数（逐一替换前面一句里的 ？占位符），注意参数类型
             pstmt.setString(1, addDTO.getName());
-            pstmt.setString(2, addDTO.getPassword());
+            pstmt.setString(2, Md5Util.md5(addDTO.getPassword()));
             pstmt.setString(3, "O");
             pstmt.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
             pstmt.setDate(5, new java.sql.Date(new java.util.Date().getTime()));
@@ -299,8 +300,8 @@ public class UserServiceImpl implements UserService {
             // 判断用户输入的密码是否正确
             stmt = conn.createStatement();
             String strSql1 = "SELECT name, type FROM user_manage_demo WHERE name = '" + modifyDTO.getName()
-                    + "' AND password = '" + modifyDTO.getPassword() + "' AND type = '" + modifyDTO.getType()
-                    + "' AND is_delete = false";
+                    + "' AND password = '" + Md5Util.md5(modifyDTO.getPassword()) + "' AND type = '"
+                    + modifyDTO.getType() + "' AND is_delete = false";
             rs = stmt.executeQuery(strSql1);
             // 如果用户输入的密码不正确则直接返回，此处只需要判断是否有数据，所以此处用 if，而不用 while
             if (!rs.next()) {
@@ -315,7 +316,7 @@ public class UserServiceImpl implements UserService {
             // 创建一个可以设置占位符参数的可编译和执行 SQL 的对象
             pstmt = conn.prepareStatement(strSql2);
             // 下面5行语句设置占位符里的各个参数（逐一替换前面一句里的 ？占位符），注意参数类型
-            pstmt.setString(1, modifyDTO.getNewPassword());
+            pstmt.setString(1, Md5Util.md5(modifyDTO.getNewPassword()));
             pstmt.setString(2, modifyDTO.getName());
             pstmt.setString(3, modifyDTO.getType());
             // 执行编译后的 SQL 语句
