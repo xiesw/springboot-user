@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
+import com.gorge4j.user.constant.ResponseConstant;
 import com.gorge4j.user.constant.SqlConstant;
 import com.gorge4j.user.constant.UserTypeConstant;
 import com.gorge4j.user.core.UserService;
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService {
             conn = getConnection();
             // 检查用户是否重复
             if (checkUserDuplicate(registerDTO.getName(), UserTypeConstant.ORDINARY)) {
-                responseVO.setCode("99");
+                responseVO.setCode(ResponseConstant.FAIL);
                 responseVO.setMessage("用户名重复，请重新注册！");
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService {
                     "INSERT INTO user_manage_demo (name, password, type, gmt_create, gmt_modified) VALUES (?, ?, ?, ?, ?)";
             // 判断数据库连接是否为空，避免出现空指针异常
             if (conn == null) {
-                responseVO.setCode("99");
+                responseVO.setCode(ResponseConstant.FAIL);
                 responseVO.setMessage("用户注册数据库连接异常！");
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
@@ -74,13 +75,13 @@ public class UserServiceImpl implements UserService {
             // 下面5行语句设置占位符里的各个参数（逐一替换前面一句里的 ？占位符），注意参数类型
             pstmt.setString(1, registerDTO.getName());
             pstmt.setString(2, Md5Util.md5(registerDTO.getPassword()));
-            pstmt.setString(3, "O");
+            pstmt.setString(3, UserTypeConstant.ORDINARY);
             pstmt.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
             pstmt.setDate(5, new java.sql.Date(new java.util.Date().getTime()));
             // 执行编译后的SQL语句
             pstmt.execute();
             // 组装返回的结果对象
-            responseVO.setCode("0");
+            responseVO.setCode(ResponseConstant.SUCCESS);
             responseVO.setMessage("恭喜您，注册成功！请登录");
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(null, null, pstmt, conn);
@@ -114,7 +115,7 @@ public class UserServiceImpl implements UserService {
             conn = getConnection();
             // 判断数据库连接是否为空，避免出现空指针异常
             if (conn == null) {
-                responseVO.setCode("99");
+                responseVO.setCode(ResponseConstant.FAIL);
                 responseVO.setMessage("用户登录数据库连接异常！");
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
@@ -128,13 +129,13 @@ public class UserServiceImpl implements UserService {
             // 如果数据库不存在记录，则返回登录失败
             if (!rs.next()) {
                 // 组装返回的结果对象
-                responseVO.setCode("99");
+                responseVO.setCode(ResponseConstant.FAIL);
                 responseVO.setMessage("登录失败，用户不存在、已删除或者用户名、密码或类型选择错误！");
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
             } else {
                 // 组装并返回成功的结果
-                responseVO.setCode("0");
+                responseVO.setCode(ResponseConstant.SUCCESS);
                 responseVO.setMessage("登录成功！");
             }
             // 关闭数据库相关连接对象
@@ -168,14 +169,14 @@ public class UserServiceImpl implements UserService {
             conn = getConnection();
             // 判断数据库连接是否为空，避免出现空指针异常
             if (conn == null) {
-                responseVO.setCode("99");
+                responseVO.setCode(ResponseConstant.FAIL);
                 responseVO.setMessage("添加用户数据库连接异常！");
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
             }
             // 检查用户名是否重复
             if (checkUserDuplicate(addDTO.getName(), UserTypeConstant.ORDINARY)) {
-                responseVO.setCode("99");
+                responseVO.setCode(ResponseConstant.FAIL);
                 responseVO.setMessage("用户名重复，请重新添加！");
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
@@ -188,12 +189,12 @@ public class UserServiceImpl implements UserService {
             // 下面5行语句设置占位符里的各个参数（逐一替换前面一句里的 ？占位符），注意参数类型
             pstmt.setString(1, addDTO.getName());
             pstmt.setString(2, Md5Util.md5(addDTO.getPassword()));
-            pstmt.setString(3, "O");
+            pstmt.setString(3, UserTypeConstant.ORDINARY);
             pstmt.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
             pstmt.setDate(5, new java.sql.Date(new java.util.Date().getTime()));
             pstmt.execute(); // 执行编译后的 SQL 语句
             // 组装返回的结果对象
-            responseVO.setCode("0");
+            responseVO.setCode(ResponseConstant.SUCCESS);
             responseVO.setMessage("添加成功！");
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(null, null, pstmt, conn);
@@ -284,7 +285,7 @@ public class UserServiceImpl implements UserService {
             conn = getConnection();
             // 判断数据库连接是否为空，避免出现空指针异常
             if (conn == null) {
-                responseVO.setCode("99");
+                responseVO.setCode(ResponseConstant.FAIL);
                 responseVO.setMessage("数据库连接异常！");
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
@@ -292,7 +293,7 @@ public class UserServiceImpl implements UserService {
             // 判断新密码和确认密码是否一致
             if (modifyDTO.getNewPassword() != null && modifyDTO.getConfirmNewPassword() != null
                     && !modifyDTO.getNewPassword().equals(modifyDTO.getConfirmNewPassword())) {
-                responseVO.setCode("99");
+                responseVO.setCode(ResponseConstant.FAIL);
                 responseVO.setMessage("密码和确认密码不一致，请检查");
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
@@ -306,7 +307,7 @@ public class UserServiceImpl implements UserService {
             // 如果用户输入的密码不正确则直接返回，此处只需要判断是否有数据，所以此处用 if，而不用 while
             if (!rs.next()) {
                 // 组装返回的结果对象
-                responseVO.setCode("99");
+                responseVO.setCode(ResponseConstant.FAIL);
                 responseVO.setMessage("登录密码不正确！");
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
@@ -322,7 +323,7 @@ public class UserServiceImpl implements UserService {
             // 执行编译后的 SQL 语句
             pstmt.execute();
             // 组装返回的结果对象
-            responseVO.setCode("0");
+            responseVO.setCode(ResponseConstant.SUCCESS);
             responseVO.setMessage("密码修改成功！");
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(rs, stmt, null, conn);
@@ -355,7 +356,7 @@ public class UserServiceImpl implements UserService {
             conn = getConnection();
             // 判断数据库连接是否为空，避免出现空指针异常
             if (conn == null) {
-                responseVO.setCode("99");
+                responseVO.setCode(ResponseConstant.FAIL);
                 responseVO.setMessage("数据库连接异常！");
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
@@ -367,10 +368,10 @@ public class UserServiceImpl implements UserService {
             // 方法的返回结果的含义
             int iResult = stmt.executeUpdate(strSql);
             if (iResult == 1) {
-                responseVO.setCode("0");
+                responseVO.setCode(ResponseConstant.SUCCESS);
                 responseVO.setMessage("删除成功！");
             } else {
-                responseVO.setCode("99");
+                responseVO.setCode(ResponseConstant.FAIL);
                 responseVO.setMessage("删除失败，没有更新到或者更新了多条记录！");
             }
             // 关闭数据库相关连接对象
