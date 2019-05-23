@@ -12,9 +12,16 @@
 			id="name"
 			th:value="${registerDTO !=null && registerDTO.name != null}?${registerDTO.name}:''" />
 		<br /> <label for="password">密码: </label> <input type="text"
-			name="password" id="password" /> <br /> <label for="type"
-			style="float: left;">用户类型: </label> <select name="type"
-			style="float: left;">
+			name="password" id="password" /> <br /> <label for="user_code"
+			class="green" style="float: left;">验证码: </label> <input
+			id="checkCode" name="checkCode" class="checkCode" type="text"
+			placeholder="验证码" style="float: left;" /><img
+			style="cursor: pointer; float: left; margin-left: 3px;"
+			th:src="@{/imageCode}"
+			onclick="this.src=this.src + '?' + new Date().valueOf();"
+			id="validateImg" alt="验证码" class="codePic" title="验证码。点击此处更新验证码。" />
+		<br /> <label for="type" style="float: left;">用户类型: </label> <select
+			name="type" style="float: left;">
 			<option value="O">普通用户</option>
 			<option value="A">管理员用户</option>
 		</select> <br /> <input type="submit" value="登录" style="float: left;">

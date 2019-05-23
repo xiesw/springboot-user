@@ -1,10 +1,21 @@
 package com.gorge4j.user.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +31,7 @@ import com.gorge4j.user.dto.DeleteDTO;
 import com.gorge4j.user.dto.LoginDTO;
 import com.gorge4j.user.dto.ModifyDTO;
 import com.gorge4j.user.dto.RegisterDTO;
+import com.gorge4j.user.util.ImageCodeUtil;
 import com.gorge4j.user.vo.ResponseVO;
 import com.gorge4j.user.vo.ViewVO;
 
@@ -36,6 +48,8 @@ import com.gorge4j.user.vo.ViewVO;
 
 @Controller
 public class UserController {
+
+    private static Logger log = LoggerFactory.getLogger(UserController.class);
 
     /** 自动注入 userService，用来处理业务，按需要注入具体的实现，存在多个实现切换时通过不同别名来注入 */
     @Resource(name = "userServiceImpl")
@@ -85,8 +99,37 @@ public class UserController {
     @PostMapping(value = "/toLogin")
     public String toLogin(Model model, @Valid @ModelAttribute(value = "loginDTO") LoginDTO loginDTO,
             HttpServletResponse httpServletResponse, HttpSession httpSession) {
+        ResponseVO responseVO = new ResponseVO();
+        // 获取前端用户输入的验证码
+        String checkCode = loginDTO.getCheckCode();
+        // 从 session 中获取到上一次生成并写入到 session 中的验证码，以便跟用户输入的验证码进行对比
+        Object cko = httpSession.getAttribute("simpleCaptcha");
+        if (cko == null) {
+            responseVO.setCode(ResponseConstant.FAIL);
+            responseVO.setMessage("请填写验证码");
+            model.addAttribute(CommonConstant.RESPONSE_VO, responseVO);
+            return httpServletResponse.encodeRedirectURL(UrlConstant.LOGIN);
+        }
+
+        String captcha = cko.toString();
+        Date now = new Date();
+        Long codeTime = Long.valueOf(httpSession.getAttribute("codeTime") + "");
+        if (StringUtils.isBlank(checkCode) || StringUtils.isBlank(captcha) || !(checkCode.equalsIgnoreCase(captcha))) {
+            responseVO.setCode(ResponseConstant.FAIL);
+            responseVO.setMessage("验证码不一致");
+            model.addAttribute(CommonConstant.RESPONSE_VO, responseVO);
+            return httpServletResponse.encodeRedirectURL(UrlConstant.LOGIN);
+        }
+        // 验证码有效时长为 5 分钟
+        else if ((now.getTime() - codeTime) / CommonConstant.MILLISECOND_CONVERSION
+                / CommonConstant.MINUTE_CONVERSION > CommonConstant.CAPTCHA_EXPIRY_TIME) {
+            responseVO.setCode(ResponseConstant.FAIL);
+            responseVO.setMessage("验证码已过期");
+            model.addAttribute(CommonConstant.RESPONSE_VO, responseVO);
+            return httpServletResponse.encodeRedirectURL(UrlConstant.LOGIN);
+        }
         // 处理用户登录业务
-        ResponseVO responseVO = userService.login(loginDTO);
+        responseVO = userService.login(loginDTO);
         // 将结果放入 model 中，在模板中可以取到 model 中的值
         // 这里就是交互的一个重要地方，我们可以在模板中通过这些属性值访问到数据
         model.addAttribute(CommonConstant.RESPONSE_VO, responseVO);
@@ -205,6 +248,30 @@ public class UserController {
         httpSession.removeAttribute("type");
         // 开始重定向到前端页面 login.jsp
         return httpServletResponse.encodeRedirectURL(UrlConstant.LOGIN);
+    }
+
+    /**
+     * 生成图形验证码
+     * 
+     * @throws NoSuchAlgorithmException
+     */
+    @GetMapping(value = "/imageCode")
+    public String imagecode(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, NoSuchAlgorithmException {
+        OutputStream os = response.getOutputStream();
+        // 生成验证码
+        Map<String, Object> map = ImageCodeUtil.getImageCode(60, 20, 4);
+        // 放入客户端的 Session 对象中
+        request.getSession().setAttribute("simpleCaptcha", map.get("strEnsure").toString().toLowerCase());
+        // 设置验证码的生成时间，并放入客户端 Session 对象中
+        request.getSession().setAttribute("codeTime", System.currentTimeMillis());
+        // 将生成的验证码图片写到图片输出流
+        try {
+            ImageIO.write((BufferedImage) map.get("image"), "JPEG", os);
+        } catch (IOException e) {
+            log.error("图形验证码生成异常");
+        }
+        return null;
     }
 
 }

@@ -21,6 +21,16 @@
 				<td><input type="text" name="password" size=25></td>
 			</tr>
 			<tr>
+				<td>验证码</td>
+				<td><input id="checkCode" name="checkCode" class="checkCode"
+					type="text" /> <img
+					style="cursor: pointer; float: right; margin-left: 3px;"
+					src="/imageCode"
+					onclick="this.src=this.src + '?' + new Date().valueOf();"
+					id="validateImg" alt="验证码" class="codePic" title="验证码。点击此处更新验证码。" />
+				</td>
+			</tr>
+			<tr>
 				<td>用户类型：</td>
 				<td><select name="type">
 						<option value="O">普通用户</option>

@@ -18,6 +18,12 @@ public class CommonConstant {
         throw new IllegalStateException("Utility class");
     }
 
+    /** 验证码过期时间 */
+    public static final int CAPTCHA_EXPIRY_TIME = 5;
+    /** 毫秒换算 */
+    public static final int MILLISECOND_CONVERSION = 1000;
+    /** 分钟换算 */
+    public static final int MINUTE_CONVERSION = 60;
     /** 统一返回对象名称 */
     public static final String RESPONSE_VO = "responseVO";
     /** 用户列表返回对象名称 */
