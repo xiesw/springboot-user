@@ -8,7 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.gorge4j.user.constant.ResponseConstant;
 import com.gorge4j.user.constant.SqlConstant;
@@ -38,7 +39,7 @@ import com.gorge4j.user.vo.ViewVO;
 @Service("userServiceImpl")
 public class UserServiceImpl implements UserService {
 
-    static Logger log = Logger.getLogger("UserServiceImpl");
+    private static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     /** 用户注册 */
     @Override
@@ -87,10 +88,10 @@ public class UserServiceImpl implements UserService {
             closeResultSetAndStatementAndConnection(null, null, pstmt, conn);
         } catch (SQLException se) {
             // 捕捉数据库异常
-            log.severe("用户注册数据库异常，异常信息：" + se);
+            log.error("用户注册数据库异常，异常信息：{}", se);
         } catch (Exception e) {
             // 捕捉Class.forName异常
-            log.severe("用户注册其它异常，异常信息：" + e);
+            log.error("用户注册其它异常，异常信息：{}", e);
         } finally { // 无论何种情况，都会执行下边的语句（finally 的作用），关闭数据库连接
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(null, null, pstmt, conn);
@@ -142,10 +143,10 @@ public class UserServiceImpl implements UserService {
             closeResultSetAndStatementAndConnection(rs, stmt, null, conn);
         } catch (SQLException se) {
             // 捕捉数据库异常
-            log.severe("用户登录数据库异常，异常信息：" + se);
+            log.error("用户登录数据库异常，异常信息：{}", se);
         } catch (Exception e) {
             // 如果执行过程中出现其它异常则打印异常信息
-            log.severe("用户登录其它异常，异常信息：" + e);
+            log.error("用户登录其它异常，异常信息：{}", e);
         } finally { // 无论何种情况，都会执行下边的语句（finally 的作用），关闭数据库连接
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(rs, stmt, null, conn);
@@ -200,10 +201,10 @@ public class UserServiceImpl implements UserService {
             closeResultSetAndStatementAndConnection(null, null, pstmt, conn);
         } catch (SQLException se) {
             // 捕捉数据库异常
-            log.severe("添加用户数据库异常，异常信息：" + se);
+            log.error("添加用户数据库异常，异常信息：{}", se);
         } catch (Exception e) {
             // 捕捉其它异常
-            log.severe("添加用户其它异常，异常信息：" + e);
+            log.error("添加用户其它异常，异常信息：{}", e);
         } finally { // 无论何种情况，都会执行下边的语句（finally 的作用），关闭数据库连接
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(null, null, pstmt, conn);
@@ -254,10 +255,10 @@ public class UserServiceImpl implements UserService {
             closeResultSetAndStatementAndConnection(rs, stmt, null, conn);
         } catch (SQLException se) {
             // 捕捉数据库异常
-            log.severe("查看用户列表数据库异常，异常信息：" + se);
+            log.error("查看用户列表数据库异常，异常信息：{}", se);
         } catch (Exception e) {
             // 如果执行过程中出现其它异常则打印异常信息
-            log.severe("Class.forName异常，异常信息：" + e);
+            log.error("Class.forName异常，异常信息：{}", e);
         } finally { // 无论何种情况，都会执行下边的语句（finally 的作用），关闭数据库连接
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(rs, stmt, null, conn);
@@ -329,10 +330,10 @@ public class UserServiceImpl implements UserService {
             closeResultSetAndStatementAndConnection(rs, stmt, null, conn);
         } catch (SQLException se) {
             // 捕捉数据库异常
-            log.severe("密码修改数据库异常，异常信息：" + se);
+            log.error("密码修改数据库异常，异常信息：{}", se);
         } catch (Exception e) {
             // 如果执行过程中出现异常则打印异常信息
-            log.severe("密码修改其它异常，异常信息：" + e);
+            log.error("密码修改其它异常，异常信息：{}", e);
         } finally { // 无论何种情况，都会执行下边的语句（finally 的作用），关闭数据库连接
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(rs, stmt, pstmt, conn);
@@ -378,10 +379,10 @@ public class UserServiceImpl implements UserService {
             closeResultSetAndStatementAndConnection(null, stmt, null, conn);
         } catch (SQLException se) {
             // 捕捉数据库异常
-            log.severe("删除用户数据库异常，异常信息：" + se);
+            log.error("删除用户数据库异常，异常信息：{}", se);
         } catch (Exception e) {
             // 如果执行过程中出现异常则打印异常信息
-            log.severe("删除用户其它异常，异常信息：" + e);
+            log.error("删除用户其它异常，异常信息：{}", e);
         } finally {
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(null, stmt, null, conn);
@@ -428,10 +429,10 @@ public class UserServiceImpl implements UserService {
             closeResultSetAndStatementAndConnection(null, stmt, null, null);
         } catch (SQLException se) {
             // 捕捉数据库异常
-            log.severe("检查用户名是否重复数据库异常，异常信息：" + se);
+            log.error("检查用户名是否重复数据库异常，异常信息：{}", se);
         } catch (Exception e) {
             // 捕捉其它异常
-            log.severe("检查用户名是否重复其它异常，异常信息：" + e);
+            log.error("检查用户名是否重复其它异常，异常信息：{}", e);
         } finally { // 无论何种情况，都会执行下边的语句（finally 的作用），关闭数据库连接
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(rs, stmt, null, null);
@@ -451,7 +452,7 @@ public class UserServiceImpl implements UserService {
                     Base64Util.base64Decrypt(SqlConstant.DB_PASS));
         } catch (Exception e) {
             // 如果执行过程中出现异常则打印异常信息
-            log.severe("Class.forName异常，异常信息：" + e);
+            log.error("Class.forName异常，异常信息：{}", e);
         }
         return conn;
     }
@@ -471,7 +472,7 @@ public class UserServiceImpl implements UserService {
                 rs.close();
             }
         } catch (SQLException se) {
-            log.severe("关闭数据库连接异常，异常信息：" + se);
+            log.error("关闭数据库连接异常，异常信息：{}", se);
         }
         // 关闭连接表对象 Statement
         try {
@@ -479,7 +480,7 @@ public class UserServiceImpl implements UserService {
                 stmt.close();
             }
         } catch (SQLException se) {
-            log.severe("关闭连接表对象异常，异常信息：" + se);
+            log.error("关闭连接表对象异常，异常信息：{}", se);
         }
         // 关闭连接表对象 PreparedStatement
         try {
@@ -487,7 +488,7 @@ public class UserServiceImpl implements UserService {
                 pstmt.close();
             }
         } catch (SQLException se) {
-            log.severe("关闭连接表对象异常，异常信息：" + se);
+            log.error("关闭连接表对象异常，异常信息：{}", se);
         }
         // 关闭数据库连接 Connection
         try {
@@ -495,7 +496,7 @@ public class UserServiceImpl implements UserService {
                 conn.close();
             }
         } catch (SQLException se) {
-            log.severe("关闭数据库连接异常，异常信息：" + se);
+            log.error("关闭数据库连接异常，异常信息：{}", se);
         }
     }
 

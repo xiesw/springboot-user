@@ -11,9 +11,13 @@
 > 7、完全遵守阿里的 P3C 编码规范；  
 > 8、Findbugs 静态代码检查清零；  
 > 9、SonarLint 静态代码检查清零；  
-> 10、代码统一格式化（采用了谷歌的 Java 代码模版 [去下载](https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml)，模版略有修改，下载后需导入 Eclipse 中进行部分修改后使用）。 
+> 10、测试用例覆盖到 service 层的每一个接口；  
+> 11、代码统一格式化（采用了谷歌的 Java 代码模版 [去下载](https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml)，模版略有修改，下载后需导入 Eclipse 中进行部分修改后使用）。  
 
 ## 技术演进记录  
+
+**1.3.0-RELEASE**  
+日志在开发工作中的重要性不言而喻，程序的调试、问题的定位、数据的分析甚至程序的监控等都离不开日志数据，JDK 也有相关的日志工具 java.util.logging ，但是功能不够强大。Logback 是日志组件中的比较优秀的，使用方面目前在市场上属于主流，在易用性、灵活配置（包括日志级别的控制、日志传递的控制、日志应用范围的控制等）方面有比较大的优势。此版本集成了 Logback 的日志打印组件，关于如何配置 logback.xml 里有详细的注释。集成的方式，除了需添加 logback.xml 配置文件，pom 的依赖里也需要加上 spring-boot-starter-logging 的依赖，然后程序里的需定义日志的实例（例如：private static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);），还需要注意 import 导入的具体包（import org.slf4j.Logger; 和 import org.slf4j.LoggerFactory;），详情见包 com.gorge4j.user.core.impl 下的 UserServiceImpl 类中的实例。
 
 **1.2.0-RELEASE**  
 Spring Boot 官方推荐的前端模版引擎是 Thymeleaf，此版本集成了 Thymeleaf ，实现功能跟 JSP 版本没有差异，有部分细节展示上有细微的差异。JSP/Thymeleaf 可以并存，那如何切换呢？可以通过配置文件 application.properties 下的 spring.thymeleaf.enabled 配置来切换，当 spring.thymeleaf.enabled=true 时 Thymeleaf 模版引擎生效，当 spring.thymeleaf.enabled=false 时 JSP 模版引擎生效。
@@ -56,6 +60,11 @@ CREATE TABLE `user_manage_demo` (
 
 ```sql
 INSERT INTO `springboot-user-demo`.`user_manage_demo`(`id`, `name`, `password`, `type`, `gmt_create`, `gmt_modified`, `is_delete`) VALUES (1, 'admin', '123456', 'A', '2019-05-19 20:26:22', '2019-05-19 20:26:27', 0);
+```
+用户登录密码切换到 MD5 加密的版本时注意执行下面的 SQL 语句，执行完后所有有效的用户登录的密码初始化成了：123456  
+
+```sql
+UPDATE `springboot-user-demo`.`user_manage_demo` SET password = 'e10adc3949ba59abbe56e057f20f883e' WHERE is_delete = false;
 ```
 
 5、将项目下载到本地，然后通过 IDE（Eclipse/IDEA） 导入项目后启动项目，启动正常后，在浏览器中输入：http://localhost:8080/login 来访问用户管理系统（管理员账号及密码：admin/123456），常用的访问地址:  

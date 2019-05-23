@@ -2,7 +2,8 @@ package com.gorge4j.user.util;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @Title: Base64Util.java
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
 
 public class Base64Util {
     
-    static Logger log = Logger.getLogger("Base64Util");
+    private static Logger log = LoggerFactory.getLogger(Base64Util.class);
     
     private Base64Util() {
         throw new IllegalStateException("Utility class");
@@ -33,7 +34,7 @@ public class Base64Util {
         try {
             return Base64.getEncoder().encodeToString(encode.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
-            log.warning(e.getMessage());
+            log.error(e.getMessage());
         }
         return null;
     }
@@ -49,7 +50,7 @@ public class Base64Util {
             byte[] by = Base64.getDecoder().decode(decode.getBytes(StandardCharsets.UTF_8));
             return new String(by, StandardCharsets.UTF_8);
         } catch (Exception e) {
-            log.warning(e.getMessage());
+            log.error(e.getMessage());
         }
         return null;
     }
