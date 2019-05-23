@@ -22,5 +22,11 @@ public class CommonConstant {
     public static final String RESPONSE_VO = "responseVO";
     /** 用户列表返回对象名称 */
     public static final String LST_VIEW_VOS = "lstViewVOs";
+    /** session中的用户名常量，避免魔法值的告警 */
+    public static final String USER_NAME = "name";
+    /** session中的用户类型常量，避免魔法值的告警 */
+    public static final String USER_TYPE = "type";
+    /** 管理员用户名称常量 */
+    public static final String USER_ADMIN = "admin";
 
 }

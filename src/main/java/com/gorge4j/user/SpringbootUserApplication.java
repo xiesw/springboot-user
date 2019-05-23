@@ -2,6 +2,7 @@ package com.gorge4j.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 
 /**
  * @Title: SpringbootUserApplication.java
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version v1.0
  */
 
+@ServletComponentScan(value = "com.gorge4j.user.filter")
 @SpringBootApplication
 public class SpringbootUserApplication {
 
