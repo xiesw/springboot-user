@@ -1,6 +1,7 @@
 package com.gorge4j.user.dto;
 
 import java.io.Serializable;
+import javax.validation.constraints.NotNull;
 
 /**
  * @Title: DeleteDTO.java
@@ -17,6 +18,7 @@ public class DeleteDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     /** 用户id */
+    @NotNull(message = "用户id不能为空")
     private Integer id;
 
     public Integer getId() {

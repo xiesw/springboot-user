@@ -4,6 +4,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +57,7 @@ public class UserController {
 
     /** 处理用户注册的请求 */
     @PostMapping(value = "/toRegister")
-    public String toRegister(Model model, @ModelAttribute(value = "registerDTO") RegisterDTO registerDTO,
+    public String toRegister(Model model, @Valid @ModelAttribute(value = "registerDTO") RegisterDTO registerDTO,
             HttpServletResponse httpServletResponse) {
         // 处理用户注册业务
         ResponseVO responseVO = userService.register(registerDTO);
@@ -82,7 +83,7 @@ public class UserController {
 
     /** 处理用户登录的请求 */
     @PostMapping(value = "/toLogin")
-    public String toLogin(Model model, @ModelAttribute(value = "loginDTO") LoginDTO loginDTO,
+    public String toLogin(Model model, @Valid @ModelAttribute(value = "loginDTO") LoginDTO loginDTO,
             HttpServletResponse httpServletResponse, HttpSession httpSession) {
         // 处理用户登录业务
         ResponseVO responseVO = userService.login(loginDTO);
@@ -129,7 +130,7 @@ public class UserController {
 
     /** 处理新增用户的请求 */
     @PostMapping(value = "/toAdd")
-    public String toAdd(Model model, @ModelAttribute(value = "addDTO") AddDTO addDTO,
+    public String toAdd(Model model, @Valid @ModelAttribute(value = "addDTO") AddDTO addDTO,
             HttpServletResponse httpServletResponse) {
         // 处理新增用户业务
         ResponseVO responseVO = userService.add(addDTO);
@@ -156,7 +157,7 @@ public class UserController {
 
     /** 处理用户信息修改的请求 */
     @PostMapping(value = "/toModify")
-    public String toModify(Model model, @ModelAttribute(value = "modifyDTO") ModifyDTO modifyDTO,
+    public String toModify(Model model, @Valid @ModelAttribute(value = "modifyDTO") ModifyDTO modifyDTO,
             HttpServletResponse httpServletResponse, HttpSession httpSession) {
         // 从 session 中取得用户名字及类型
         String strName = httpSession.getAttribute("name").toString();
@@ -181,7 +182,7 @@ public class UserController {
 
     /** 删除用户 */
     @GetMapping(value = "/delete")
-    public String delete(Model model, @ModelAttribute(value = "deleteDTO") DeleteDTO deleteDTO,
+    public String delete(Model model, @Valid @ModelAttribute(value = "deleteDTO") DeleteDTO deleteDTO,
             HttpServletResponse httpServletResponse) {
         // 处理逻辑删除用户业务
         ResponseVO responseVO = userService.delete(deleteDTO);

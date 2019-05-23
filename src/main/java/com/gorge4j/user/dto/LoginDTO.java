@@ -1,6 +1,7 @@
 package com.gorge4j.user.dto;
 
 import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
 
 /**
  * @Title: LoginDTO.java
@@ -17,10 +18,13 @@ public class LoginDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     /** 名字 */
+    @NotBlank(message = "用户名不能为空")
     private String name;
     /** 密码 */
+    @NotBlank(message = "用户密码不能为空")
     private String password;
     /** 类型 */
+    @NotBlank(message = "用户类型不能为空")
     private String type;
 
     public String getName() {

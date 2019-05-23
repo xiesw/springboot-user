@@ -1,6 +1,7 @@
 package com.gorge4j.user.dto;
 
 import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
 
 /**
  * @Title: ModifyDTO.java
@@ -21,10 +22,13 @@ public class ModifyDTO implements Serializable {
     /** 类型 */
     private String type;
     /** 原密码 */
+    @NotBlank(message = "原密码不能为空")
     private String password;
     /** 新密码 */
+    @NotBlank(message = "新密码不能为空")
     private String newPassword;
     /** 确认新密码 */
+    @NotBlank(message = "确认新密码不能为空")
     private String confirmNewPassword;
 
     public String getName() {
@@ -70,8 +74,8 @@ public class ModifyDTO implements Serializable {
     /** 重写POJO类的toString方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
     @Override
     public String toString() {
-        return "ModifyDTO [name=" + name + ", type=" + type + ", password=" + password + ", newPassword="
-                + newPassword + ", confirmNewPassword=" + confirmNewPassword + "]";
+        return "ModifyDTO [name=" + name + ", type=" + type + ", password=" + password + ", newPassword=" + newPassword
+                + ", confirmNewPassword=" + confirmNewPassword + "]";
     }
 
 }

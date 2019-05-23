@@ -16,6 +16,9 @@
 
 ## 技术演进记录  
 
+**1.4.0-RELEASE**  
+实战中我们经常遇到的一个问题就是参数校验的问题，如果把参数的校验都放到 Controller 层或者 Service 层来校验，一方面会增加业务代码的复杂性，也让业务代码显得非常的臃肿。还有一个问题就是，校验不通过的结果如何告诉用户。我们期望的结果是，参数的校验最好能通过简单的配置来实现，检验不通过的自动抛出异常，然后系统自动处理异常，并且把异常处理的结果封装好告诉用户，业务层面无须干预。JSR303 规范 [官网查看](https://www.jcp.org/en/jsr/detail?id=303) <解决参数校验的问题>及全局异常处理<解决参数校验的异常封装的问题>就是为了一起配合解决这个问题。此版本集成了参数的校验及全局异常的处理。参数校验集成的方式，包 com.gorge4j.user.dto 下面的数据传输对象需要加上校验的规则及提示信息，Controller 层的参数前面需要加上 @Valid 的注解。全局异常处理集成的方式，包 com.gorge4j.user.enumeration 添加了一个常用请求失败的返回码和返回信息定义，全局异常处理类的核心逻辑在包 com.gorge4j.user.handler 下的 GlobalExceptionHandler 类里边。上一个版本也能看到，项目实际上前后端都是没有参数校验的，这个是有问题的，这个版本就是为了解决这个问题。
+
 **1.3.0-RELEASE**  
 日志在开发工作中的重要性不言而喻，程序的调试、问题的定位、数据的分析甚至程序的监控等都离不开日志数据，JDK 也有相关的日志工具 java.util.logging ，但是功能不够强大。Logback 是日志组件中的比较优秀的，使用方面目前在市场上属于主流，在易用性、灵活配置（包括日志级别的控制、日志传递的控制、日志应用范围的控制等）方面有比较大的优势。此版本集成了 Logback 的日志打印组件，关于如何配置 logback.xml 里有详细的注释。集成的方式，除了需添加 logback.xml 配置文件，pom 的依赖里也需要加上 spring-boot-starter-logging 的依赖，然后程序里的需定义日志的实例（例如：private static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);），还需要注意 import 导入的具体包（import org.slf4j.Logger; 和 import org.slf4j.LoggerFactory;），详情见包 com.gorge4j.user.core.impl 下的 UserServiceImpl 类中的实例。
 
