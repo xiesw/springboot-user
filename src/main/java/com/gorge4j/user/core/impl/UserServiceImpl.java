@@ -61,9 +61,6 @@ public class UserServiceImpl implements UserService {
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
             }
-            // 创建一个可以设置占位符参数的可编译和执行 SQL 的对象
-            String strSql =
-                    "INSERT INTO user_manage_demo (name, password, type, gmt_create, gmt_modified) VALUES (?, ?, ?, ?, ?)";
             // 判断数据库连接是否为空，避免出现空指针异常
             if (conn == null) {
                 responseVO.setCode(ResponseConstant.FAIL);
@@ -71,6 +68,11 @@ public class UserServiceImpl implements UserService {
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
             }
+            // 将自动提交设置为 false
+            setAutoCommit(conn, false);
+            // 创建一个可以设置占位符参数的可编译和执行 SQL 的对象
+            String strSql =
+                    "INSERT INTO user_manage_demo (name, password, type, gmt_create, gmt_modified) VALUES (?, ?, ?, ?, ?)";
             // 创建一个可以设置占位符参数的可编译和执行 SQL 的对象
             pstmt = conn.prepareStatement(strSql);
             // 下面5行语句设置占位符里的各个参数（逐一替换前面一句里的 ？占位符），注意参数类型
@@ -81,15 +83,21 @@ public class UserServiceImpl implements UserService {
             pstmt.setDate(5, new java.sql.Date(new java.util.Date().getTime()));
             // 执行编译后的SQL语句
             pstmt.execute();
+            // 当操作成功后手动提交
+            commit(conn);
             // 组装返回的结果对象
             responseVO.setCode(ResponseConstant.SUCCESS);
             responseVO.setMessage("恭喜您，注册成功！请登录");
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(null, null, pstmt, conn);
         } catch (SQLException se) {
+            // 处理失败时回滚数据
+            rollBack(conn);
             // 捕捉数据库异常
             log.error("用户注册数据库异常，异常信息：{}", se);
         } catch (Exception e) {
+            // 处理失败时回滚数据
+            rollBack(conn);
             // 捕捉Class.forName异常
             log.error("用户注册其它异常，异常信息：{}", e);
         } finally { // 无论何种情况，都会执行下边的语句（finally 的作用），关闭数据库连接
@@ -182,6 +190,8 @@ public class UserServiceImpl implements UserService {
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
             }
+            // 将自动提交设置为 false
+            setAutoCommit(conn, false);
             // 构造添加用户的 SQL 语句
             String strSql =
                     "INSERT INTO user_manage_demo (name, password, type, gmt_create, gmt_modified) VALUES (?, ?, ?, ?, ?)";
@@ -193,16 +203,23 @@ public class UserServiceImpl implements UserService {
             pstmt.setString(3, UserTypeConstant.ORDINARY);
             pstmt.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
             pstmt.setDate(5, new java.sql.Date(new java.util.Date().getTime()));
-            pstmt.execute(); // 执行编译后的 SQL 语句
+            // 执行编译后的 SQL 语句
+            pstmt.execute();
+            // 当操作成功后手动提交
+            commit(conn);
             // 组装返回的结果对象
             responseVO.setCode(ResponseConstant.SUCCESS);
             responseVO.setMessage("添加成功！");
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(null, null, pstmt, conn);
         } catch (SQLException se) {
+            // 处理失败时回滚数据
+            rollBack(conn);
             // 捕捉数据库异常
             log.error("添加用户数据库异常，异常信息：{}", se);
         } catch (Exception e) {
+            // 处理失败时回滚数据
+            rollBack(conn);
             // 捕捉其它异常
             log.error("添加用户其它异常，异常信息：{}", e);
         } finally { // 无论何种情况，都会执行下边的语句（finally 的作用），关闭数据库连接
@@ -299,7 +316,9 @@ public class UserServiceImpl implements UserService {
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
             }
-            // 判断用户输入的密码是否正确
+            // 将自动提交设置为 false
+            setAutoCommit(conn, false);
+            // 创建一个可编译和执行 SQL 的对象，判断用户输入的密码是否正确
             stmt = conn.createStatement();
             String strSql1 = "SELECT name, type FROM user_manage_demo WHERE name = '" + modifyDTO.getName()
                     + "' AND password = '" + Md5Util.md5(modifyDTO.getPassword()) + "' AND type = '"
@@ -323,15 +342,21 @@ public class UserServiceImpl implements UserService {
             pstmt.setString(3, modifyDTO.getType());
             // 执行编译后的 SQL 语句
             pstmt.execute();
+            // 当操作成功后手动提交
+            commit(conn);
             // 组装返回的结果对象
             responseVO.setCode(ResponseConstant.SUCCESS);
             responseVO.setMessage("密码修改成功！");
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(rs, stmt, null, conn);
         } catch (SQLException se) {
+            // 处理失败时回滚数据
+            rollBack(conn);
             // 捕捉数据库异常
             log.error("密码修改数据库异常，异常信息：{}", se);
         } catch (Exception e) {
+            // 处理失败时回滚数据
+            rollBack(conn);
             // 如果执行过程中出现异常则打印异常信息
             log.error("密码修改其它异常，异常信息：{}", e);
         } finally { // 无论何种情况，都会执行下边的语句（finally 的作用），关闭数据库连接
@@ -362,12 +387,17 @@ public class UserServiceImpl implements UserService {
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
             }
-            stmt = conn.createStatement();
+            // 将自动提交设置为 false
+            setAutoCommit(conn, false);
             // 构造逻辑删除用户记录的 SQL 语句
             String strSql = "UPDATE user_manage_demo SET is_delete = true WHERE id = " + deleteDTO.getId();
+            // 创建一个可编译和执行 SQL 的对象
+            stmt = conn.createStatement();
             // 注意：execute 函数返回值 true 和 false 并不是代表是否执行成功的意思，所以这里没有用。具体返回值的含义可以看下 Statement 的 executeUpdate
             // 方法的返回结果的含义
             int iResult = stmt.executeUpdate(strSql);
+            // 当操作成功后手动提交
+            commit(conn);
             if (iResult == 1) {
                 responseVO.setCode(ResponseConstant.SUCCESS);
                 responseVO.setMessage("删除成功！");
@@ -378,9 +408,13 @@ public class UserServiceImpl implements UserService {
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(null, stmt, null, conn);
         } catch (SQLException se) {
+            // 处理失败时回滚数据
+            rollBack(conn);
             // 捕捉数据库异常
             log.error("删除用户数据库异常，异常信息：{}", se);
         } catch (Exception e) {
+            // 处理失败时回滚数据
+            rollBack(conn);
             // 如果执行过程中出现异常则打印异常信息
             log.error("删除用户其它异常，异常信息：{}", e);
         } finally {
@@ -416,10 +450,12 @@ public class UserServiceImpl implements UserService {
                 // 数据库还有业务唯一索引，可以保证数据的唯一，此处返回 false 没有问题
                 return false;
             }
-            stmt = conn.createStatement();
             // 根据执行 SQL 返回的结果封装结果集
             String strSql =
                     "SELECT name, type FROM user_manage_demo WHERE name = '" + name + "' AND type = '" + type + "'";
+            // 创建一个可编译和执行 SQL 的对象
+            stmt = conn.createStatement();
+            // 执行查询的 SQL，并返回结果
             rs = stmt.executeQuery(strSql);
             // 如果数据库存在记录，说明当前注册的用户名重复
             if (rs.next()) {
@@ -455,6 +491,52 @@ public class UserServiceImpl implements UserService {
             log.error("Class.forName异常，异常信息：{}", e);
         }
         return conn;
+    }
+
+    /**
+     * 设置事务属性
+     * 
+     * @param conn 数据库连接对象
+     * @param isAutoCommit 是否自动提交事务
+     */
+    private void setAutoCommit(Connection conn, boolean isAutoCommit) {
+        try {
+            // 设置是否自动提交事务
+            conn.setAutoCommit(isAutoCommit);
+        } catch (SQLException e) {
+            // 设置是否自动提交事务出现异常时打印异常信息
+            log.error("设置是否自动提交事务异常，异常信息：{}", e);
+        }
+    }
+
+    /**
+     * 提交事务
+     * 
+     * @param conn 数据库连接对象
+     */
+    private void commit(Connection conn) {
+        try {
+            // 提交事务
+            conn.commit();
+        } catch (SQLException e) {
+            // 提交事务出现异常时打印异常信息
+            log.error("提交事务异常，异常信息：{}", e);
+        }
+    }
+
+    /**
+     * 回滚事务
+     * 
+     * @param conn 数据库连接对象
+     */
+    private void rollBack(Connection conn) {
+        try {
+            // 回滚事务
+            conn.rollback();
+        } catch (SQLException e) {
+            // 回滚事务出现异常时打印异常信息
+            log.error("回滚事务异常，异常信息：{}", e);
+        }
     }
 
     /**
