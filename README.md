@@ -16,6 +16,9 @@
 
 ## 技术演进记录  
 
+**1.6.1-RELEASE**  
+代码优化：替换了部分常量，按照标准格式化了前端代码，增加了部分注释，优化了部分小bug，提升了部分代码的可读性
+
 **1.6.0-RELEASE**  
 随着技术的发展，人工智能逐渐出现在生活中，在一些应用系统中，如何识别是人在操作还是机器在操作，显得尤为重要，因为系统的资源是有限的，如果机器操作占用了大量的服务器资源，会导致资源不足从而影响正常用户的操作，有时候甚至能引起金钱上的损失（比如通过机器恶意刷短信验证码），所以如何防范机器人显得尤为重要。这次的版本集成的图形验证码就是为了一定程度上解决这个问题，通过增加图形验证码，增加了机器人操作的难度，也相当于增加了攻击的成本，虽然现在有一些图片识别的技术，但是性价比不高的事情，如果得不偿失攻击者也不会去做，所以相当于一定程度上增加了系统的安全性。这次集成的内容稍多，详细内容请看提交记录。
 
@@ -29,7 +32,7 @@
 日志在开发工作中的重要性不言而喻，程序的调试、问题的定位、数据的分析甚至程序的监控等都离不开日志数据，JDK 也有相关的日志工具 java.util.logging ，但是功能不够强大。Logback 是日志组件中的比较优秀的，使用方面目前在市场上属于主流，在易用性、灵活配置（包括日志级别的控制、日志传递的控制、日志应用范围的控制等）方面有比较大的优势。此版本集成了 Logback 的日志打印组件，关于如何配置 logback.xml 里有详细的注释。集成的方式，除了需添加 logback.xml 配置文件，pom 的依赖里也需要加上 spring-boot-starter-logging 的依赖，然后程序里的需定义日志的实例（例如：private static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);），还需要注意 import 导入的具体包（import org.slf4j.Logger; 和 import org.slf4j.LoggerFactory;），详情见包 com.gorge4j.user.core.impl 下的 UserServiceImpl 类中的实例。
 
 **1.2.0-RELEASE**  
-Spring Boot 官方推荐的前端模版引擎是 Thymeleaf，此版本集成了 Thymeleaf ，实现功能跟 JSP 版本没有差异，有部分细节展示上有细微的差异。JSP/Thymeleaf 可以并存，那如何切换呢？可以通过配置文件 application.properties 下的 spring.thymeleaf.enabled 配置来切换，当 spring.thymeleaf.enabled=true 时 Thymeleaf 模版引擎生效，当 spring.thymeleaf.enabled=false 时 JSP 模版引擎生效。
+Spring Boot 官方推荐的前端模版引擎是 Thymeleaf，此版本集成了 Thymeleaf ，实现功能跟 JSP 版本基本没有差异，有部分细节展示上有细微的差异。JSP/Thymeleaf 可以并存，那如何切换呢？可以通过配置文件 application.properties 下的 spring.thymeleaf.enabled 配置来切换，当 spring.thymeleaf.enabled=true 时 Thymeleaf 模版引擎生效，当 spring.thymeleaf.enabled=false 时 JSP 模版引擎生效。注意一个细节，如果要打包然后运行，pom 的 packaging 配置需要改成 jar，当以 jsp 版本打包运行时需改回 war，这个细节需注意。
 
 **1.1.0-RELEASE**  
 实际工作中，为了防止用户密码明文的泄漏（内部能接触到数据库数据的员工，或者黑客攻击拖库等），密码通过 MD5 加密之后不可逆，即便坏人拿到了数据，也无法拿到真实的密码，达到保密的作用，实操中为了进一步加强密码的强度，可以采取 MD5 加盐的方式（举例说明：把用户的明文密码+用户id之后的字符串进行md5加密之后存到数据库）进行加密。此次版本用户登录的密码改成了 MD5 加密的方式，注意原来数据库里的管理员用户 admin 及其它普通用户的明文密码需要改成 MD5 加密后的字符串，然后回填到数据库里，常用密码：123456对应的 MD5 密文是：e10adc3949ba59abbe56e057f20f883e  

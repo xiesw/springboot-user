@@ -1,102 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<!-- 描述这个 POM 文件是遵从哪个版本的项目描述符 -->
-	<modelVersion>4.0.0</modelVersion>
+    <!-- 描述这个 POM 文件是遵从哪个版本的项目描述符 -->
+    <modelVersion>4.0.0</modelVersion>
 
-	<!-- Spring Boot 的父级依赖，它用来提供相关的 Maven 默认依赖。使用它之后，常用的包依赖可以省去 version 标签 -->
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.4.RELEASE</version>
-		<relativePath />
-	</parent>
+    <!-- Spring Boot 的父级依赖，它用来提供相关的 Maven 默认依赖。使用它之后，常用的包依赖可以省去 version 标签 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.4.RELEASE</version>
+        <relativePath />
+    </parent>
 
-	<!-- Maven 三坐标 -->
-	<!-- 定义当前 Maven 项目隶属的实际项目 -->
-	<groupId>com.gorge4j.user</groupId>
-	<!-- 定义实际项目的一个 Maven 项目（模块） -->
-	<artifactId>springboot-user</artifactId>
-	<!-- 定义 Maven 项目当前所处的项目的版本 -->
-	<version>1.6.0-RELEASE</version>
+    <!-- Maven 三坐标 -->
+    <!-- 定义当前 Maven 项目隶属的实际项目 -->
+    <groupId>com.gorge4j.user</groupId>
+    <!-- 定义实际项目的一个 Maven 项目（模块） -->
+    <artifactId>springboot-user</artifactId>
+    <!-- 定义 Maven 项目当前所处的项目的版本 -->
+    <version>1.6.1-RELEASE</version>
 
-	<!-- Spring Boot 集成 JSP 打成 war 包才能独立运行，打成 war 包之后这么运行：$ java -jar springboot-user-1.0.0-RELEASE.war -->
-	<packaging>war</packaging>
+    <!-- Spring Boot 集成 JSP 打成 war 包才能独立运行，打成 war 包之后这么运行：$ java -jar springboot-user-1.0.0-RELEASE.war -->
+    <packaging>jar</packaging>
 
-	<!-- 描述项目的名称 -->
-	<name>springboot-user</name>
-	<!-- 项目的描述 -->
-	<description>Demo project for Spring Boot</description>
+    <!-- 描述项目的名称 -->
+    <name>springboot-user</name>
+    <!-- 项目的描述 -->
+    <description>Demo project for Spring Boot</description>
 
-	<properties>
-		<!-- 依赖的 JDK 版本 -->
-		<java.version>1.8</java.version>
-	</properties>
+    <properties>
+        <!-- 依赖的 JDK 版本 -->
+        <java.version>1.8</java.version>
+    </properties>
 
-	<dependencies>
-		<!-- Spring Boot Web依赖 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+    <dependencies>
+        <!-- Spring Boot Web依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
-		<!-- 访问 JSP 页面时必须配置 -->
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
-			<!-- 依赖项的适用范围，provided：参与编译、测试及运行，不打包。暂注释，避免前端 JSP 页面 JSTL 标签识别告警 -->
-			<!-- <scope>provided</scope> -->
-		</dependency>
+        <!-- 访问 JSP 页面时必须配置 -->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <!-- 依赖项的适用范围，provided：参与编译、测试及运行，不打包。暂注释，避免前端 JSP 页面 JSTL 标签识别告警 -->
+            <!-- <scope>provided</scope> -->
+        </dependency>
 
-		<!-- 支持 JSP 的 JSTL 标签 -->
-		<dependency>
-			<groupId>jstl</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
+        <!-- 支持 JSP 的 JSTL 标签 -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
 
-		<!-- 支持 Thymeleaf -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
+        <!-- 支持 Thymeleaf -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
 
-		<!-- 支持 JDBC 连接 -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
+        <!-- 支持 JDBC 连接 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
 
-		<!-- 支持日志打印 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-logging</artifactId>
-		</dependency>
+        <!-- 支持日志打印 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
 
-		<!-- Apache常用工具类 -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
+        <!-- Apache常用工具类 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
 
-		<!-- 支持 JUnit、 Hamcrest、Mockito 等单元测试框架 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<!-- 依赖项的适用范围，test：仅参与测试，包括测试代码的编译和执行 -->
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+        <!-- 支持 JUnit、 Hamcrest、Mockito 等单元测试框架 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <!-- 依赖项的适用范围，test：仅参与测试，包括测试代码的编译和执行 -->
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<!-- 提供 Spring Boot 在 Maven 中的支持，允许你打包成可直接运行的 Jar 包或 War 包。 -->
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <!-- 提供 Spring Boot 在 Maven 中的支持，允许你打包成可直接运行的 Jar 包或 War 包。 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

@@ -11,9 +11,9 @@
     <!-- log.level 为日志的打印级别，以下日志输出优先级由低到高（trace < debug < info < warn < error），例如级别为 info 时，info、warn 和 error 日志都会打印，以此类推 -->
     <Property name="log.level" value="${log.level:-info}" />
     <contextName>${log.name}</contextName>
-
+    <!-- 日志输出格式：%-5level：级别从左显示5个字符宽度 %logger{50}，%contextName表示上线文名称，%d表示日期时间，%thread表示线程名，表示logger名字最长50个字符，否则按照句点分割。 %msg：日志消息，%n是换行符 -->
     <Property name="patternTemplate"
-        value="[%-5level] [%contextName] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread][%X{traceId}] %logger - %msg%n" />
+        value="[%-5level] [%contextName] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread][%X{traceId}] %logger{50} - %msg%n" />
     <jmxConfigurator />
     <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
     <!-- 控制台输出日志 -->

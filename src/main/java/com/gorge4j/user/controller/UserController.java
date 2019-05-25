@@ -79,12 +79,11 @@ public class UserController {
         // 这里就是交互的一个重要地方，我们可以在模板中通过这些属性值访问到数据
         model.addAttribute(CommonConstant.RESPONSE_VO, responseVO);
         registerDTO.setName(registerDTO.getName());
-
         if (ResponseConstant.SUCCESS.equals(responseVO.getCode())) {
-            // 重定向到前端登录页面 login.jsp，并且携带数据过去
+            // 注册成功，重定向到前端登录页面 login.jsp，并且携带数据过去
             return httpServletResponse.encodeRedirectURL(UrlConstant.LOGIN);
         }
-
+        // 注册失败，跳转到注册页面，并将失败的信息返回
         return httpServletResponse.encodeRedirectURL(UrlConstant.REGISTER);
     }
 
@@ -103,17 +102,17 @@ public class UserController {
         // 获取前端用户输入的验证码
         String checkCode = loginDTO.getCheckCode();
         // 从 session 中获取到上一次生成并写入到 session 中的验证码，以便跟用户输入的验证码进行对比
-        Object cko = httpSession.getAttribute("simpleCaptcha");
+        Object cko = httpSession.getAttribute(CommonConstant.SIMPLE_CAPTCHA);
         if (cko == null) {
             responseVO.setCode(ResponseConstant.FAIL);
             responseVO.setMessage("请填写验证码");
             model.addAttribute(CommonConstant.RESPONSE_VO, responseVO);
             return httpServletResponse.encodeRedirectURL(UrlConstant.LOGIN);
         }
-
         String captcha = cko.toString();
+        // 校验用户输入的验证码跟系统生成的验证码是否一致
         Date now = new Date();
-        Long codeTime = Long.valueOf(httpSession.getAttribute("codeTime") + "");
+        Long codeTime = Long.valueOf(httpSession.getAttribute(CommonConstant.CODE_TIME) + "");
         if (StringUtils.isBlank(checkCode) || StringUtils.isBlank(captcha) || !(checkCode.equalsIgnoreCase(captcha))) {
             responseVO.setCode(ResponseConstant.FAIL);
             responseVO.setMessage("验证码不一致");
@@ -134,10 +133,10 @@ public class UserController {
         // 这里就是交互的一个重要地方，我们可以在模板中通过这些属性值访问到数据
         model.addAttribute(CommonConstant.RESPONSE_VO, responseVO);
         // 设置登录 session，给 JSP 模版用
-        httpSession.setAttribute("name", loginDTO.getName());
-        httpSession.setAttribute("type", loginDTO.getType());
+        httpSession.setAttribute(CommonConstant.USER_NAME, loginDTO.getName());
+        httpSession.setAttribute(CommonConstant.USER_TYPE, loginDTO.getType());
         // 将类型码转换为中文说明
-        httpSession.setAttribute("typeName", UserTypeConstant.typeToDesc(loginDTO.getType()));
+        httpSession.setAttribute(CommonConstant.USER_TYPE_NAME, UserTypeConstant.typeToDesc(loginDTO.getType()));
         // 组装结果返回
         if (responseVO != null && ResponseConstant.SUCCESS.equals(responseVO.getCode())) {
             // 登录成功重定向到前端首页 index.jsp，并且携带数据过去
@@ -151,7 +150,7 @@ public class UserController {
     @GetMapping(value = "/view")
     public String view(HttpServletResponse response) {
         // 重定向到前端 view.jsp
-        return response.encodeRedirectURL("/view");
+        return response.encodeRedirectURL(UrlConstant.VIEW);
     }
 
     /** 处理查看用户列表的请求 */
@@ -177,6 +176,8 @@ public class UserController {
             HttpServletResponse httpServletResponse) {
         // 处理新增用户业务
         ResponseVO responseVO = userService.add(addDTO);
+        // 将处理结果写入到返回对象中
+        model.addAttribute(CommonConstant.RESPONSE_VO, responseVO);
         // 处理成功
         if (ResponseConstant.SUCCESS.equals(responseVO.getCode())) {
             // 处理业务
@@ -203,8 +204,8 @@ public class UserController {
     public String toModify(Model model, @Valid @ModelAttribute(value = "modifyDTO") ModifyDTO modifyDTO,
             HttpServletResponse httpServletResponse, HttpSession httpSession) {
         // 从 session 中取得用户名字及类型
-        String strName = httpSession.getAttribute("name").toString();
-        String strType = httpSession.getAttribute("type").toString();
+        String strName = httpSession.getAttribute(CommonConstant.USER_NAME).toString();
+        String strType = httpSession.getAttribute(CommonConstant.USER_TYPE).toString();
         modifyDTO.setName(strName);
         modifyDTO.setType(strType);
         // 处理用户信息修改业务
@@ -214,8 +215,8 @@ public class UserController {
         model.addAttribute(CommonConstant.RESPONSE_VO, responseVO);
         if (ResponseConstant.SUCCESS.equals(responseVO.getCode())) {
             // 密码修改成功，从 session 中删除 user 属性，用户退出登录
-            httpSession.removeAttribute("name");
-            httpSession.removeAttribute("type");
+            httpSession.removeAttribute(CommonConstant.USER_NAME);
+            httpSession.removeAttribute(CommonConstant.USER_TYPE);
             // 开始重定向前端登录页面 login.jsp，并且携带数据过去
             return httpServletResponse.encodeRedirectURL(UrlConstant.LOGIN);
         }
@@ -244,8 +245,8 @@ public class UserController {
     @GetMapping(value = "/loginOut")
     public String loginOut(HttpSession httpSession, HttpServletResponse httpServletResponse) {
         // 从 session 中删除 user 属性，用户退出登录
-        httpSession.removeAttribute("name");
-        httpSession.removeAttribute("type");
+        httpSession.removeAttribute(CommonConstant.USER_NAME);
+        httpSession.removeAttribute(CommonConstant.USER_TYPE);
         // 开始重定向到前端页面 login.jsp
         return httpServletResponse.encodeRedirectURL(UrlConstant.LOGIN);
     }
@@ -262,12 +263,13 @@ public class UserController {
         // 生成验证码
         Map<String, Object> map = ImageCodeUtil.getImageCode(60, 20, 4);
         // 放入客户端的 Session 对象中
-        request.getSession().setAttribute("simpleCaptcha", map.get("strEnsure").toString().toLowerCase());
+        request.getSession().setAttribute(CommonConstant.SIMPLE_CAPTCHA,
+                map.get(CommonConstant.CAPTCHA_VALUE).toString().toLowerCase());
         // 设置验证码的生成时间，并放入客户端 Session 对象中
-        request.getSession().setAttribute("codeTime", System.currentTimeMillis());
+        request.getSession().setAttribute(CommonConstant.CODE_TIME, System.currentTimeMillis());
         // 将生成的验证码图片写到图片输出流
         try {
-            ImageIO.write((BufferedImage) map.get("image"), "JPEG", os);
+            ImageIO.write((BufferedImage) map.get(CommonConstant.IMAGE), CommonConstant.JPEG, os);
         } catch (IOException e) {
             log.error("图形验证码生成异常");
         }
