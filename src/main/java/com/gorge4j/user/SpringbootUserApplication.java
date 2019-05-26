@@ -3,6 +3,7 @@ package com.gorge4j.user;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.annotation.ImportResource;
 
 /**
  * @Title: SpringbootUserApplication.java
@@ -16,6 +17,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  */
 
 @ServletComponentScan(value = "com.gorge4j.user.filter")
+@ImportResource("classpath:transaction.xml")
 @SpringBootApplication
 public class SpringbootUserApplication {
 

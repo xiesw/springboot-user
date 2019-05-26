@@ -90,7 +90,7 @@ public class UserServiceJdbcTemplateImpl implements UserService {
 
     /** 添加用户 */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    // @Transactional(rollbackFor = Exception.class)
     public ResponseVO add(AddDTO addDTO) {
         // 定义返回的对象
         ResponseVO responseVO = new ResponseVO();
@@ -187,7 +187,7 @@ public class UserServiceJdbcTemplateImpl implements UserService {
 
     /** 删除用户 */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    // @Transactional(rollbackFor = Exception.class)
     public ResponseVO delete(DeleteDTO deleteDTO) {
         // 定义返回的结果对象
         ResponseVO responseVO = new ResponseVO();

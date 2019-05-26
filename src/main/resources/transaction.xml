@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 配置事务管理组件 -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!-- 可以对应到application.properties文件里的dataSource -->
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+    
+	<!-- 定义事务通知，声明式事务时需要 -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+	    <!-- 定义方法的过滤规则 -->
+		<tx:attributes>
+			<!-- 定义以 insert、save、add、update、delete 开头的方法，可以自动切进去事务，项目中以 add 和 delete 为例 -->
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<!-- 定义所有 find、get 开头的方法都是只读的 -->
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+    
+	<!-- 定义AOP配置，声明式事务时需要，POM 需要添加 -->
+	<aop:config>
+	    <!-- 定义一个切入点 -->
+		<aop:pointcut id="allManagerMethod"
+			expression="execution(* com.gorge4j.user.core.impl.*.*(..))" />
+		<!-- 对切入点和事务的通知，进行适配 -->
+		<aop:advisor advice-ref="txAdvice"
+			pointcut-ref="allManagerMethod" order="0" />
+	</aop:config>
+
+</beans>

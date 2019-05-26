@@ -16,6 +16,9 @@
 
 ## 技术演进记录  
 
+**1.8.2-RELEASE**  
+在上一个版本 JdbcTemplate 支持注解式的事务基础上，添加对声明式事务的支持。以包 com.gorge4j.user 下的 UserServiceJdbcTemplateImpl 类中的 add 及 delete 方法为例来添加对声明式事务的支持。需要在文件目录 src/main/resources 下添加 transaction.xml 配置文件，添加事务管理器及事务通知和切面的一些配置，并在启动类 SpringBootUserApplication 下导入该 XML 资源即可。
+
 **1.8.1-RELEASE**  
 上一个版本集成了 JdbcTemplate 持久化组件，这里有一个问题，就是没有添加对事务的支持。之前也提到，事务在工作实践中非常重要，那么这个版本来集成一下事务，我们先实现注解式的事务，效果是在 UserServiceJdbcTemplateImpl 类需要做事务控制的方法上添加 @Transactional(rollbackFor = Exception.class) 注解即可支持事务。在启动类 SpringBootUserApplication 里加上注解 @EnableTransactionManagement 等同于在XML配置文件里加上 <tx:annotation-driven /> 配置。POM 里添加依赖 spring-boot-starter-jdbc 之后，框架会默认注入 DataSourceTransactionManager 实例。
 总结一下：POM 里添加依赖 spring-boot-starter-jdbc 之后，只需要在方法上添加 @Transactional(rollbackFor = Exception.class) 注解即可支持事务，启动类 SpringBootUserApplication 不需要添加注解 @EnableTransactionManagement，也不需要通过配置文件添加 <tx:annotation-driven />配置。
