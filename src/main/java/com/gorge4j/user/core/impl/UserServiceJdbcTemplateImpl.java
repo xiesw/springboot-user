@@ -23,7 +23,8 @@ import com.gorge4j.user.vo.ViewVO;
 
 /**
  * @Title: UserServiceJdbcTemplateImpl.java
- * @Description: 用户管理JdbcTemplate实现类（常用以下三个方法:1.execute方法，用于直接执行SQL；2.update方法，用户新增修改删除；3.query方法，用于查询）
+ * @Description: 用户管理 JdbcTemplate 实现类（常用以下三个方法:1.execute 方法，用于直接执行 SQL；2.update 方法，用户新增修改删除；3.query
+ *               方法，用于查询）
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
  *
@@ -64,7 +65,7 @@ public class UserServiceJdbcTemplateImpl implements UserService {
         // 组装返回的结果对象
         responseVO.setCode(ResponseConstant.SUCCESS);
         responseVO.setMessage("恭喜您，注册成功！请登录");
-
+        // 返回组装好的结果集
         return responseVO;
     }
 
@@ -79,7 +80,11 @@ public class UserServiceJdbcTemplateImpl implements UserService {
                 jdbcTemplate.queryForObject(strSql, new UserManageDemoJdbcTemplate(), loginDTO.getName(),
                         Md5Util.md5(loginDTO.getPassword()), loginDTO.getType());
         // 如果数据库存在记录，则将记录添加到返回的结果集对象中
-        if (userManageDemoJdbcTemplate != null) {
+        if (userManageDemoJdbcTemplate == null) {
+            // 组装返回的结果对象
+            responseVO.setCode(ResponseConstant.FAIL);
+            responseVO.setMessage("登录失败，用户不存在、已删除或者用户名、密码或类型选择错误！");
+        } else {
             // 组装返回的结果对象
             responseVO.setCode(ResponseConstant.SUCCESS);
             responseVO.setMessage("登录成功！");
@@ -90,7 +95,7 @@ public class UserServiceJdbcTemplateImpl implements UserService {
 
     /** 添加用户 */
     @Override
-    // @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public ResponseVO add(AddDTO addDTO) {
         // 定义返回的对象
         ResponseVO responseVO = new ResponseVO();
@@ -187,7 +192,7 @@ public class UserServiceJdbcTemplateImpl implements UserService {
 
     /** 删除用户 */
     @Override
-    // @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public ResponseVO delete(DeleteDTO deleteDTO) {
         // 定义返回的结果对象
         ResponseVO responseVO = new ResponseVO();

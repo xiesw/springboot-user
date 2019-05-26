@@ -16,6 +16,9 @@
 
 ## 技术演进记录  
 
+**1.8.3-RELEASE**  
+代码优化：将 JdbcTemplate 事务统一切回注解式的事务（更简单），同时修复部分不影响主体功能的小 BUG，优化部分注释。
+
 **1.8.2-RELEASE**  
 在上一个版本 JdbcTemplate 支持注解式的事务基础上，添加对声明式事务的支持。以包 com.gorge4j.user 下的 UserServiceJdbcTemplateImpl 类中的 add 及 delete 方法为例来添加对声明式事务的支持。需要在文件目录 src/main/resources 下添加 transaction.xml 配置文件，添加事务管理器及事务通知和切面的一些配置，并在启动类 SpringBootUserApplication 下导入该 XML 资源即可。
 
