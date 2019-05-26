@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gorge4j.user.dao.UserManageDemoMyBatisMapper">
+
+    <resultMap id="BaseResultMap" type="com.gorge4j.user.entity.UserManageDemoMyBatis">
+        <result column="id" jdbcType="BIGINT" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+        <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.gorge4j.user.entity.UserManageDemoMyBatis" keyProperty="id"
+        useGeneratedKeys="true">
+        insert into user_manage_demo (id, name,
+        password,
+        type, gmt_create, gmt_modified,
+        is_delete)
+        values (#{id},
+        #{name}, #{password},
+        #{type}, #{gmtCreate}, #{gmtModified},
+        #{isDelete})
+    </insert>
+
+    <select id="findUserManageDemoByNameAndPasswordAndType" resultMap="BaseResultMap">
+        select
+        id, name, password,
+        type, gmt_create,
+        gmt_modified,
+        is_delete from user_manage_demo
+        where name = #{name} and password = #{password} and type =
+        #{type}
+    </select>
+
+    <select id="findAllByTypeAndStatus" resultMap="BaseResultMap">
+        select id, name,
+        password,
+        type, gmt_create, gmt_modified,
+        is_delete from user_manage_demo where type
+        = #{type} AND is_delete = #{isDelete}
+    </select>
+
+    <select id="findUserManageDemoByNameAndType" resultMap="BaseResultMap">
+        select id, name,
+        password,
+        type, gmt_create,
+        gmt_modified,
+        is_delete from user_manage_demo where name = #{name} and type = #{type}
+    </select>
+
+    <update id="updatePasswordByNameAndType">
+        update user_manage_demo set password = #{password}, gmt_modified = #{gmtModified} where name =
+        #{name} and type
+        = #{type}
+    </update>
+
+    <update id="updateStatusById">
+        update user_manage_demo set is_delete = true, gmt_modified = #{gmtModified} where id = #{id}
+    </update>
+
+</mapper>

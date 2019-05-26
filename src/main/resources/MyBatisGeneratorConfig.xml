@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- MyBatis 的持久化相关文件生成的配置类，生成后的文件略有修改，生成前的注意事项 -->
+<!-- 注意事项（生成的文件可能会覆盖旧文件，谨慎操作）： -->
+<!-- 1、修改驱动地址 -->
+<!-- 2、修改数据库 URL、账号及密码 -->
+<!-- 3、修改实体、映射文件及持久化 DAO 层的文件的目录 -->
+<!-- 4、修改表名 tableName 及实体名 domainObjectName -->
+<generatorConfiguration>
+    <!-- 数据库驱动，生成前驱动的路径请改成自己机器上的地址 -->
+    <classPathEntry
+        location="/Users/guoyingxia/apache-maven-3.5.3/repository-prod/mysql/mysql-connector-java/8.0.15/mysql-connector-java-8.0.15.jar" />
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressDate" value="true" />
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+        <!--数据库链接URL，用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+            connectionURL="jdbc:mysql://localhost:3306/springboot-user-demo" userId="root" password="12345678">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+        <!-- 生成实体的包名和位置 -->
+        <javaModelGenerator targetPackage="com.gorge4j.user.entity"
+            targetProject="springboot-user/src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <!-- 生成映射文件的包名和位置 -->
+        <sqlMapGenerator targetPackage="mapping" targetProject="springboot-user/src/main/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+        <!-- 生成 DAO 的包名和位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.gorge4j.user.dao"
+            targetProject="springboot-user/src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+        <!-- 要生成的表 tableName 是数据库中的表名或视图名 domainObjectName 是实体类名 -->
+        <table tableName="user_manage_demo" domainObjectName="UserManageDemoMyBatis" enableCountByExample="false"
+            enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+            selectByExampleQueryId="false"></table>
+    </context>
+</generatorConfiguration>

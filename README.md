@@ -16,6 +16,9 @@
 
 ## 技术演进记录  
 
+**1.10.0-RELEASE**  
+这个版本集成 MyBatis 持久化组件，MyBatis 目前在实践过程中使用的频率非常高，也是一个非常有灵活性和生产力的组件。集成稍微复杂一些，请重点关注这个版本的提交记录涉及的文件及修改的内容。
+
 **1.9.0-RELEASE**  
 这个版本集成了 Spring 的 JPA 持久化组件，JPA 默认实现了一些常用的 CURD 的一些方法，可以进一步精简代码。集成也非常的简单，POM 依赖加上 spring-boot-starter-data-jpa 的依赖，包 com.gorge4j.user.entity 下创建 UserManageDemoJpa 实体类，包 com.gorge4j.user.dao 下创建 UserRepository 持久化的操作类，包 com.gorge4j.user.core.impl 下创建 UserServiceJpaImpl 业务逻辑处理类，集成完毕。
 
