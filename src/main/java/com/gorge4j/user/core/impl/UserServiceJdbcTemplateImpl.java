@@ -7,6 +7,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.gorge4j.user.constant.ResponseConstant;
 import com.gorge4j.user.constant.UserTypeConstant;
 import com.gorge4j.user.core.UserService;
@@ -39,6 +40,7 @@ public class UserServiceJdbcTemplateImpl implements UserService {
 
     /** 用户注册 */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResponseVO register(RegisterDTO registerDTO) {
         // 定义返回的对象
         ResponseVO responseVO = new ResponseVO();
@@ -88,6 +90,7 @@ public class UserServiceJdbcTemplateImpl implements UserService {
 
     /** 添加用户 */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResponseVO add(AddDTO addDTO) {
         // 定义返回的对象
         ResponseVO responseVO = new ResponseVO();
@@ -140,6 +143,7 @@ public class UserServiceJdbcTemplateImpl implements UserService {
 
     /** 用户信息修改 */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResponseVO modify(ModifyDTO modifyDTO) {
         // 定义返回的对象
         ResponseVO responseVO = new ResponseVO();
@@ -183,6 +187,7 @@ public class UserServiceJdbcTemplateImpl implements UserService {
 
     /** 删除用户 */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResponseVO delete(DeleteDTO deleteDTO) {
         // 定义返回的结果对象
         ResponseVO responseVO = new ResponseVO();

@@ -16,6 +16,10 @@
 
 ## 技术演进记录  
 
+**1.8.1-RELEASE**  
+上一个版本集成了 JdbcTemplate 持久化组件，这里有一个问题，就是没有添加对事务的支持。之前也提到，事务在工作实践中非常重要，那么这个版本来集成一下事务，我们先实现注解式的事务，效果是在 UserServiceJdbcTemplateImpl 类需要做事务控制的方法上添加 @Transactional(rollbackFor = Exception.class) 注解即可支持事务。在启动类 SpringBootUserApplication 里加上注解 @EnableTransactionManagement 等同于在XML配置文件里加上 <tx:annotation-driven /> 配置。POM 里添加依赖 spring-boot-starter-jdbc 之后，框架会默认注入 DataSourceTransactionManager 实例。
+总结一下：POM 里添加依赖 spring-boot-starter-jdbc 之后，只需要在方法上添加 @Transactional(rollbackFor = Exception.class) 注解即可支持事务，启动类 SpringBootUserApplication 不需要添加注解 @EnableTransactionManagement，也不需要通过配置文件添加 <tx:annotation-driven />配置。
+
 **1.8.0-RELEASE**  
 前面的版本我们能看到，对数据库的操作都是基于原生的 JDBC，每次都要手动获取数据库连接、处理异常、关闭连接，代码写法及逻辑处理都非常的低效，我们需要通过持久化组件来提高效率，JdbcTemplate 就是 Spring 官方提供的其中一种数据持久化的组件，来提升对数据库操作的效率。此版本集成了 JdbcTemplate 持久化组件，JdbcTemplate 默认使用的 Hikari 连接池 [GIT开源地址](https://github.com/HikariObfuscator/Hikari)。另外，项目也支持 JdbcTemplate 和原生 JDBC版本的切换，在 Controller 层 Service 注入的地方，可以通过切换实现类的别名来选择不同的版本，通过两个版本的对比也能看出 JdbcTemplate 版本代码更精简。 
 
