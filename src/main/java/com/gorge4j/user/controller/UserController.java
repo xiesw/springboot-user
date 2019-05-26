@@ -52,7 +52,7 @@ public class UserController {
     private static Logger log = LoggerFactory.getLogger(UserController.class);
 
     /** 自动注入 userService，用来处理业务，按需要注入具体的实现，存在多个实现切换时通过不同别名来注入 */
-    @Resource(name = "userServiceImpl")
+    @Resource(name = "userServiceJdbcTemplateImpl")
     private UserService userService;
 
     /** 注册请求重定向到首页 index.jsp */
