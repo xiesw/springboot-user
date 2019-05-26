@@ -16,6 +16,9 @@
 
 ## 技术演进记录  
 
+**1.9.0-RELEASE**  
+这个版本集成了 Spring 的 JPA 持久化组件，JPA 默认实现了一些常用的 CURD 的一些方法，可以进一步精简代码。集成也非常的简单，POM 依赖加上 spring-boot-starter-data-jpa 的依赖，包 com.gorge4j.user.entity 下创建 UserManageDemoJpa 实体类，包 com.gorge4j.user.dao 下创建 UserRepository 持久化的操作类，包 com.gorge4j.user.core.impl 下创建 UserServiceJpaImpl 业务逻辑处理类，集成完毕。
+
 **1.8.3-RELEASE**  
 代码优化：将 JdbcTemplate 事务统一切回注解式的事务（更简单），同时修复部分不影响主体功能的小 BUG，优化部分注释。
 
