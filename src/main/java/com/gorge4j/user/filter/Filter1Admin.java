@@ -16,7 +16,7 @@ import com.gorge4j.user.constant.UserTypeConstant;
 
 /**
  * @Title: Filter1Admin.java
- * @Description: 管理员鉴权过滤器
+ * @Description: 管理员鉴权过滤器，类名中的数字 1 代表多个过滤器执行时的顺序
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
  *

@@ -17,10 +17,10 @@ import javax.validation.constraints.NotBlank;
 public class AddDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    /** 名字 */
+    /** 用户名 */
     @NotBlank(message = "用户名不能为空")
     private String name;
-    /** 密码 */
+    /** 用户密码 */
     @NotBlank(message = "用户密码不能为空")
     private String password;
 
@@ -40,7 +40,7 @@ public class AddDTO implements Serializable {
         this.password = password;
     }
 
-    /** 重写POJO类的toString方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
+    /** 重写 POJO 类的 toString 方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
     @Override
     public String toString() {
         return "AddDTO [name=" + name + ", password=" + password + "]";

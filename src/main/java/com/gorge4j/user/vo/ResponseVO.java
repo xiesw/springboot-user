@@ -37,7 +37,7 @@ public class ResponseVO implements Serializable {
         this.message = message;
     }
 
-    /** 重写POJO类的toString方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
+    /** 重写 POJO 类的 toString 方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
     @Override
     public String toString() {
         return "ResponseVO [code=" + code + ", message=" + message + "]";

@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * @Title: ViewVO.java
- * @Description: 用户列表查看值对象
+ * @Description: 用户列表返回值对象
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
  *
@@ -17,6 +17,7 @@ import java.util.Date;
 public class ViewVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     /** 用户id */
     private Integer id;
     /** 用户名 */
@@ -58,7 +59,7 @@ public class ViewVO implements Serializable {
         this.gmtCreate = gmtCreate;
     }
 
-    /** 重写POJO类的toString方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
+    /** 重写 POJO 类的 toString 方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
     @Override
     public String toString() {
         return "ViewVO [id=" + id + ", name=" + name + ", type=" + type + ", gmtCreate=" + gmtCreate + "]";

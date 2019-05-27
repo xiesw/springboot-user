@@ -1,5 +1,6 @@
 package com.gorge4j.user.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,7 +15,10 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @version v1.0
  */
 
-public class UserManageDemoMyBatis {
+public class UserManageDemoMyBatis implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     /** 用户 id */
     private Integer id;
     /** 用户名 */
@@ -90,8 +94,8 @@ public class UserManageDemoMyBatis {
 
     @Override
     public String toString() {
-        return "UserDO [id=" + id + ", name=" + name + ", password=" + password + ", type=" + type + ", gmtCreate="
-                + gmtCreate + ", gmtModified=" + gmtModified + ", isDelete=" + isDelete + "]";
+        return "UserManageDemoMyBatis [id=" + id + ", name=" + name + ", password=" + password + ", type=" + type
+                + ", gmtCreate=" + gmtCreate + ", gmtModified=" + gmtModified + ", isDelete=" + isDelete + "]";
     }
 
 }

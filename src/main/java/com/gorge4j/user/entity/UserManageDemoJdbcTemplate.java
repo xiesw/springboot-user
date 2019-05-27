@@ -1,5 +1,6 @@
 package com.gorge4j.user.entity;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -7,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.jdbc.core.RowMapper;
 
 /**
- * @Title: UserManageDemo.java
+ * @Title: UserManageDemoJdbcTemplate.java
  * @Description: 用户管理表 JdbcTemplate 版本实体类
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
@@ -17,7 +18,10 @@ import org.springframework.jdbc.core.RowMapper;
  * @version v1.0
  */
 
-public class UserManageDemoJdbcTemplate implements RowMapper<UserManageDemoJdbcTemplate> {
+public class UserManageDemoJdbcTemplate implements RowMapper<UserManageDemoJdbcTemplate>, Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     /** 用户 id */
     private Integer id;
     /** 用户名 */
@@ -93,8 +97,8 @@ public class UserManageDemoJdbcTemplate implements RowMapper<UserManageDemoJdbcT
 
     @Override
     public String toString() {
-        return "UserDO [id=" + id + ", name=" + name + ", password=" + password + ", type=" + type + ", gmtCreate="
-                + gmtCreate + ", gmtModified=" + gmtModified + ", isDelete=" + isDelete + "]";
+        return "UserManageDemoJdbcTemplate [id=" + id + ", name=" + name + ", password=" + password + ", type=" + type
+                + ", gmtCreate=" + gmtCreate + ", gmtModified=" + gmtModified + ", isDelete=" + isDelete + "]";
     }
 
     /**

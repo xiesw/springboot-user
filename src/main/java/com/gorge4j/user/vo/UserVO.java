@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * @Title: UserVO.java
- * @Description: 用户值对象
+ * @Description: 用户信息返回值对象
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
  *
@@ -16,9 +16,10 @@ import java.io.Serializable;
 public class UserVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    /** 名字 */
+
+    /** 用户名字 */
     private String name;
-    /** 类型 */
+    /** 用户类型 */
     private String type;
 
     public String getName() {
@@ -37,7 +38,7 @@ public class UserVO implements Serializable {
         this.type = type;
     }
 
-    /** 重写POJO类的toString方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
+    /** 重写 POJO 类的 toString 方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
     @Override
     public String toString() {
         return "UserVO [name=" + name + ", type=" + type + "]";

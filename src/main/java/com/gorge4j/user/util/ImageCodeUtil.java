@@ -13,7 +13,7 @@ import com.gorge4j.user.constant.CommonConstant;
 
 /**
  * @Title: ImageCodeUtil.java
- * @Description: 生成图形验证码工具类
+ * @Description: 图形验证码生成工具类
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
  *

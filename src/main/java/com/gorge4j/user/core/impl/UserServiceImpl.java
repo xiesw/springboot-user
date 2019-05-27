@@ -27,7 +27,7 @@ import com.gorge4j.user.vo.ViewVO;
 
 /**
  * @Title: UserServiceImpl.java
- * @Description: 用户管理功能 JDBC 原生版本实现类
+ * @Description: 用户管理系统 JDBC 原生版本实现类
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
  *
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
             }
-            // 将自动提交设置为 false
+            // 将事务自动提交设置为 false
             setAutoCommit(conn, false);
             // 创建一个可以设置占位符参数的可编译和执行 SQL 的对象
             String strSql =
@@ -79,8 +79,8 @@ public class UserServiceImpl implements UserService {
             pstmt.setString(1, registerDTO.getName());
             pstmt.setString(2, Md5Util.md5(registerDTO.getPassword()));
             pstmt.setString(3, UserTypeConstant.ORDINARY);
-            pstmt.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime() + 13 * 3600 * 1000));
-            pstmt.setTimestamp(5, new java.sql.Timestamp(new java.util.Date().getTime() + 13 * 3600 * 1000));
+            pstmt.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime()));
+            pstmt.setTimestamp(5, new java.sql.Timestamp(new java.util.Date().getTime()));
             pstmt.setBoolean(6, false);
             // 执行编译后的SQL语句
             pstmt.execute();
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             // 处理失败时回滚数据
             rollBack(conn);
-            // 捕捉Class.forName异常
+            // 捕捉用户注册其它异常
             log.error("用户注册其它异常，异常信息：{}", e);
         } finally { // 无论何种情况，都会执行下边的语句（finally 的作用），关闭数据库连接
             // 关闭数据库相关连接对象
@@ -143,11 +143,10 @@ public class UserServiceImpl implements UserService {
                 responseVO.setMessage("登录失败，用户不存在、已删除或者用户名、密码或类型选择错误！");
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
-            } else {
-                // 组装并返回成功的结果
-                responseVO.setCode(ResponseConstant.SUCCESS);
-                responseVO.setMessage("登录成功！");
             }
+            // 组装并返回成功的结果
+            responseVO.setCode(ResponseConstant.SUCCESS);
+            responseVO.setMessage("登录成功！");
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(rs, stmt, null, conn);
         } catch (SQLException se) {
@@ -160,7 +159,6 @@ public class UserServiceImpl implements UserService {
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(rs, stmt, null, conn);
         }
-
         return responseVO;
     }
 
@@ -191,7 +189,7 @@ public class UserServiceImpl implements UserService {
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
             }
-            // 将自动提交设置为 false
+            // 将事务自动提交设置为 false
             setAutoCommit(conn, false);
             // 构造添加用户的 SQL 语句
             String strSql =
@@ -202,8 +200,8 @@ public class UserServiceImpl implements UserService {
             pstmt.setString(1, addDTO.getName());
             pstmt.setString(2, Md5Util.md5(addDTO.getPassword()));
             pstmt.setString(3, UserTypeConstant.ORDINARY);
-            pstmt.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime() + 13 * 3600 * 1000));
-            pstmt.setTimestamp(5, new java.sql.Timestamp(new java.util.Date().getTime() + 13 * 3600 * 1000));
+            pstmt.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime()));
+            pstmt.setTimestamp(5, new java.sql.Timestamp(new java.util.Date().getTime()));
             pstmt.setBoolean(6, false);
             // 执行编译后的 SQL 语句
             pstmt.execute();
@@ -277,7 +275,7 @@ public class UserServiceImpl implements UserService {
             log.error("查看用户列表数据库异常，异常信息：{}", se);
         } catch (Exception e) {
             // 如果执行过程中出现其它异常则打印异常信息
-            log.error("Class.forName异常，异常信息：{}", e);
+            log.error("查看用户列表其它异常，异常信息：{}", e);
         } finally { // 无论何种情况，都会执行下边的语句（finally 的作用），关闭数据库连接
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(rs, stmt, null, conn);
@@ -310,15 +308,15 @@ public class UserServiceImpl implements UserService {
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
             }
-            // 判断新密码和确认密码是否一致
+            // 判断新密码和确认新密码是否一致
             if (modifyDTO.getNewPassword() != null && modifyDTO.getConfirmNewPassword() != null
                     && !modifyDTO.getNewPassword().equals(modifyDTO.getConfirmNewPassword())) {
                 responseVO.setCode(ResponseConstant.FAIL);
-                responseVO.setMessage("密码和确认密码不一致，请检查");
+                responseVO.setMessage("新密码和确认新密码不一致，请检查");
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
             }
-            // 将自动提交设置为 false
+            // 将事务自动提交设置为 false
             setAutoCommit(conn, false);
             // 创建一个可编译和执行 SQL 的对象，判断用户输入的密码是否正确
             stmt = conn.createStatement();
@@ -330,7 +328,7 @@ public class UserServiceImpl implements UserService {
             if (!rs.next()) {
                 // 组装返回的结果对象并返回
                 responseVO.setCode(ResponseConstant.FAIL);
-                responseVO.setMessage("登录密码不正确！");
+                responseVO.setMessage("登录原密码不正确！");
                 return responseVO;
             }
             // 构造用户密码修改的 SQL 语句
@@ -339,7 +337,7 @@ public class UserServiceImpl implements UserService {
             pstmt = conn.prepareStatement(strSql2);
             // 下面5行语句设置占位符里的各个参数（逐一替换前面一句里的 ？占位符），注意参数类型
             pstmt.setString(1, Md5Util.md5(modifyDTO.getNewPassword()));
-            pstmt.setTimestamp(2, new java.sql.Timestamp(new java.util.Date().getTime() + 13 * 3600 * 1000));
+            pstmt.setTimestamp(2, new java.sql.Timestamp(new java.util.Date().getTime()));
             pstmt.setString(3, modifyDTO.getName());
             pstmt.setString(4, modifyDTO.getType());
             // 执行编译后的 SQL 语句
@@ -389,13 +387,13 @@ public class UserServiceImpl implements UserService {
                 // 返回组装的提示信息对象给前端页面
                 return responseVO;
             }
-            // 将自动提交设置为 false
+            // 将事务自动提交设置为 false
             setAutoCommit(conn, false);
             // 构造逻辑删除用户记录的 SQL 语句
             String strSql = "UPDATE user_manage_demo SET is_delete = true, gmt_modified = ? WHERE id = ?";
             // 创建一个可以设置占位符参数的可编译和执行 SQL 的对象
             pstmt = conn.prepareStatement(strSql);
-            pstmt.setTimestamp(1, new java.sql.Timestamp(new java.util.Date().getTime() + 13 * 3600 * 1000));
+            pstmt.setTimestamp(1, new java.sql.Timestamp(new java.util.Date().getTime()));
             pstmt.setInt(2, deleteDTO.getId());
             // 执行编译后的 SQL 语句
             pstmt.execute();
@@ -403,7 +401,7 @@ public class UserServiceImpl implements UserService {
             commit(conn);
             // 组装返回的结果对象
             responseVO.setCode(ResponseConstant.SUCCESS);
-            responseVO.setMessage("删除成功！");
+            responseVO.setMessage("用户删除成功！");
             // 关闭数据库相关连接对象
             closeResultSetAndStatementAndConnection(null, null, pstmt, conn);
         } catch (SQLException se) {
@@ -487,13 +485,13 @@ public class UserServiceImpl implements UserService {
                     Base64Util.base64Decrypt(SqlConstant.DB_PASS));
         } catch (Exception e) {
             // 如果执行过程中出现异常则打印异常信息
-            log.error("Class.forName异常，异常信息：{}", e);
+            log.error("获取数据库连接出现其它异常，异常信息：{}", e);
         }
         return conn;
     }
 
     /**
-     * 设置事务属性
+     * 设置事务自动提交属性
      * 
      * @param conn 数据库连接对象
      * @param isAutoCommit 是否自动提交事务

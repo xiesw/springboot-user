@@ -33,8 +33,8 @@ import com.gorge4j.user.vo.ViewVO;
 @SpringBootTest
 public class SpringbootUserApplicationTest {
 
-    /** 自动注入userService，用来处理业务，按实现类的别名注入具体的实现 */
-    @Resource(name = "userServiceImpl")
+    /** 自动注入 userService，用来处理业务，按实现类的别名注入具体的实现 */
+    @Resource(name = "userServiceMyBatisImpl")
     private UserService userService;
 
     /** 测试注册接口 */

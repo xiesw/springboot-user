@@ -10,18 +10,18 @@ import org.springframework.stereotype.Repository;
 import com.gorge4j.user.entity.UserManageDemoJpa;
 
 /**
- * @Title: UserRepository.java
- * @Description: 用户持久化类
+ * @Title: UserManageDemoJpaRepository.java
+ * @Description: 用户管理表 JPA 版本持久化类
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
  *
  * @author gorge.guo
- * @date 2019-04-24 19:24:15
+ * @date 2019-04-24 21:24:15
  * @version v1.0
  */
 
 @Repository
-public interface UserRepository extends JpaRepository<UserManageDemoJpa, Integer> {
+public interface UserManageDemoJpaRepository extends JpaRepository<UserManageDemoJpa, Integer> {
 
     /**
      * 通过名字、密码和类型查询用户信息
@@ -32,8 +32,8 @@ public interface UserRepository extends JpaRepository<UserManageDemoJpa, Integer
      * @return
      */
     @Query(value = "SELECT u FROM UserManageDemoJpa u WHERE u.name = :name AND u.password = :password AND u.type = :type")
-    UserManageDemoJpa findUserManageDemoByNameAndPasswordAndType(@Param("name") String name, @Param("password") String password,
-            @Param("type") String type);
+    UserManageDemoJpa findUserManageDemoByNameAndPasswordAndType(@Param("name") String name,
+            @Param("password") String password, @Param("type") String type);
 
     /**
      * 通过名字、类型查询用户信息

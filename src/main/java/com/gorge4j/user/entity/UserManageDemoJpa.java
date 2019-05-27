@@ -1,5 +1,6 @@
 package com.gorge4j.user.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,8 +10,8 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * @Title: UserManageDemo.java
- * @Description: 用户管理表 JdbcTemplate 版本实体类
+ * @Title: UserManageDemoJpa.java
+ * @Description: 用户管理表 JPA 版本实体类
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
  *
@@ -21,7 +22,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "user_manage_demo")
-public class UserManageDemoJpa {
+public class UserManageDemoJpa implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     /** 用户 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -99,8 +103,8 @@ public class UserManageDemoJpa {
 
     @Override
     public String toString() {
-        return "UserDO [id=" + id + ", name=" + name + ", password=" + password + ", type=" + type + ", gmtCreate="
-                + gmtCreate + ", gmtModified=" + gmtModified + ", isDelete=" + isDelete + "]";
+        return "UserManageDemoJpa [id=" + id + ", name=" + name + ", password=" + password + ", type=" + type
+                + ", gmtCreate=" + gmtCreate + ", gmtModified=" + gmtModified + ", isDelete=" + isDelete + "]";
     }
 
 }

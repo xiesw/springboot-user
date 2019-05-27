@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gorge4j.user.constant.ResponseConstant;
 import com.gorge4j.user.constant.UserTypeConstant;
 import com.gorge4j.user.core.UserService;
-import com.gorge4j.user.dao.UserRepository;
+import com.gorge4j.user.dao.UserManageDemoJpaRepository;
 import com.gorge4j.user.dto.AddDTO;
 import com.gorge4j.user.dto.DeleteDTO;
 import com.gorge4j.user.dto.LoginDTO;
@@ -22,12 +22,12 @@ import com.gorge4j.user.vo.ViewVO;
 
 /**
  * @Title: UserServiceJpaImpl.java
- * @Description: 用户管理功能 JPA 版本实现类
+ * @Description: 用户管理系统 JPA 版本实现类
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
  *
  * @author gorge.guo
- * @date 2019-04-24 18:56:03
+ * @date 2019-04-24 21:56:03
  * @version v1.0
  */
 
@@ -36,7 +36,7 @@ import com.gorge4j.user.vo.ViewVO;
 public class UserServiceJpaImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    UserManageDemoJpaRepository userManageDemoJpaRepository;
 
     /** 用户注册 */
     @Override
@@ -60,7 +60,7 @@ public class UserServiceJpaImpl implements UserService {
         userManageDemoJpa.setGmtModified(date);
         userManageDemoJpa.setIsDelete(false);
         // 保存数据库
-        userRepository.save(userManageDemoJpa);
+        userManageDemoJpaRepository.save(userManageDemoJpa);
         // 组装返回的结果对象
         responseVO.setCode(ResponseConstant.SUCCESS);
         responseVO.setMessage("恭喜您，注册成功！请登录");
@@ -73,18 +73,19 @@ public class UserServiceJpaImpl implements UserService {
     public ResponseVO login(LoginDTO loginDTO) {
         // 定义返回的对象
         ResponseVO responseVO = new ResponseVO();
-        UserManageDemoJpa userManageDemoJpa = userRepository.findUserManageDemoByNameAndPasswordAndType(loginDTO.getName(),
-                Md5Util.md5(loginDTO.getPassword()), loginDTO.getType());
+        UserManageDemoJpa userManageDemoJpa = userManageDemoJpaRepository.findUserManageDemoByNameAndPasswordAndType(
+                loginDTO.getName(), Md5Util.md5(loginDTO.getPassword()), loginDTO.getType());
         // 如果数据库存在记录，则将记录添加到返回的结果集对象中
         if (userManageDemoJpa == null) {
             // 组装返回的结果对象
             responseVO.setCode(ResponseConstant.FAIL);
             responseVO.setMessage("登录失败，用户不存在、已删除或者用户名、密码或类型选择错误！");
-        } else {
-            // 组装返回的结果对象
-            responseVO.setCode(ResponseConstant.SUCCESS);
-            responseVO.setMessage("登录成功！");
+            // 返回组装好的结果集
+            return responseVO;
         }
+        // 组装返回的结果对象
+        responseVO.setCode(ResponseConstant.SUCCESS);
+        responseVO.setMessage("登录成功！");
         // 返回组装好的结果集
         return responseVO;
     }
@@ -97,7 +98,7 @@ public class UserServiceJpaImpl implements UserService {
         ResponseVO responseVO = new ResponseVO();
         if (checkUserDuplicate(addDTO.getName(), UserTypeConstant.ORDINARY)) {
             responseVO.setCode(ResponseConstant.FAIL);
-            responseVO.setMessage("用户名重复，请重新注册！");
+            responseVO.setMessage("用户名重复，请重新添加！");
             // 返回组装的提示信息对象给前端页面
             return responseVO;
         }
@@ -107,11 +108,11 @@ public class UserServiceJpaImpl implements UserService {
         userManageDemoJpa.setName(addDTO.getName());
         userManageDemoJpa.setPassword(Md5Util.md5(addDTO.getPassword()));
         userManageDemoJpa.setType(UserTypeConstant.ORDINARY);
-        userManageDemoJpa.setGmtCreate(new java.sql.Date(date.getTime()));
-        userManageDemoJpa.setGmtModified(new java.sql.Date(date.getTime()));
+        userManageDemoJpa.setGmtCreate(date);
+        userManageDemoJpa.setGmtModified(date);
         userManageDemoJpa.setIsDelete(false);
         // 保存数据库
-        userRepository.save(userManageDemoJpa);
+        userManageDemoJpaRepository.save(userManageDemoJpa);
         // 组装返回的结果对象
         responseVO.setCode(ResponseConstant.SUCCESS);
         responseVO.setMessage("添加成功！");
@@ -124,7 +125,8 @@ public class UserServiceJpaImpl implements UserService {
     public List<ViewVO> view() {
         // 定义返回的结果集对象，这种定义方式是对象形式的集合
         List<ViewVO> lstViewVOs = new ArrayList<>();
-        List<UserManageDemoJpa> lstUserManageDemoJpas = userRepository.findAllByTypeAndStatus("O", false);
+        List<UserManageDemoJpa> lstUserManageDemoJpas =
+                userManageDemoJpaRepository.findAllByTypeAndStatus(UserTypeConstant.ORDINARY, false);
         for (UserManageDemoJpa userManageDemoJpa : lstUserManageDemoJpas) {
             // 创建一个新对象来存储查询出的一条条记录
             ViewVO viewVO = new ViewVO();
@@ -146,34 +148,35 @@ public class UserServiceJpaImpl implements UserService {
     public ResponseVO modify(ModifyDTO passwordDTO) {
         // 定义返回的对象
         ResponseVO responseVO = new ResponseVO();
-        // 判断新密码和确认密码是否一致
+        // 判断新密码和确认新密码是否一致
         if (passwordDTO.getNewPassword() != null && passwordDTO.getConfirmNewPassword() != null
                 && !passwordDTO.getNewPassword().equals(passwordDTO.getConfirmNewPassword())) {
             responseVO.setCode(ResponseConstant.FAIL);
-            responseVO.setMessage("密码和确认密码不一致，请检查！");
+            responseVO.setMessage("新密码和确认新密码不一致，请检查！");
             // 返回组装的提示信息对象给前端页面
             return responseVO;
         }
-        // 判断用户密码是否正确
-        UserManageDemoJpa userManageDemoJpa = userRepository.findUserManageDemoByNameAndPasswordAndType(passwordDTO.getName(),
-                Md5Util.md5(passwordDTO.getPassword()), passwordDTO.getType());
+        // 判断用户原密码是否正确
+        UserManageDemoJpa userManageDemoJpa = userManageDemoJpaRepository.findUserManageDemoByNameAndPasswordAndType(
+                passwordDTO.getName(), Md5Util.md5(passwordDTO.getPassword()), passwordDTO.getType());
         if (userManageDemoJpa == null) {
             responseVO.setCode(ResponseConstant.FAIL);
-            responseVO.setMessage("用户密码不正确，请检查！");
+            responseVO.setMessage("用户原密码不正确，请检查！");
             // 返回组装的提示信息对象给前端页面
             return responseVO;
         }
         Date date = new Date();
-        int iUpdate = userRepository.updatePasswordByNameAndType(Md5Util.md5(passwordDTO.getNewPassword()),
+        int iUpdate = userManageDemoJpaRepository.updatePasswordByNameAndType(Md5Util.md5(passwordDTO.getNewPassword()),
                 passwordDTO.getName(), passwordDTO.getType(), date);
-        if (iUpdate == 1) {
+        if (iUpdate != 1) {
             // 组装返回的结果对象
-            responseVO.setCode(ResponseConstant.SUCCESS);
-            responseVO.setMessage("密码修改成功！");
-        } else {
             responseVO.setCode(ResponseConstant.FAIL);
             responseVO.setMessage("密码修改失败，没有修改到或者修改了多条记录！");
+            // 返回组装好的结果
+            return responseVO;
         }
+        responseVO.setCode(ResponseConstant.SUCCESS);
+        responseVO.setMessage("密码修改成功！");
         // 返回组装好的结果
         return responseVO;
     }
@@ -185,14 +188,16 @@ public class UserServiceJpaImpl implements UserService {
         // 定义返回的结果对象
         ResponseVO responseVO = new ResponseVO();
         Date date = new Date();
-        int iResult = userRepository.updateStatusById(deleteDTO.getId(), date);
-        if (iResult == 1) {
-            responseVO.setCode(ResponseConstant.SUCCESS);
-            responseVO.setMessage("删除成功！");
-        } else {
+        int iResult = userManageDemoJpaRepository.updateStatusById(deleteDTO.getId(), date);
+        if (iResult != 1) {
+            // 组装返回的结果对象
             responseVO.setCode(ResponseConstant.FAIL);
             responseVO.setMessage("删除失败，没有更新到或者更新了多条记录！");
+            // 返回组装好的结果
+            return responseVO;
         }
+        responseVO.setCode(ResponseConstant.SUCCESS);
+        responseVO.setMessage("用户删除成功！");
         // 返回组装好的结果
         return responseVO;
 
@@ -207,7 +212,7 @@ public class UserServiceJpaImpl implements UserService {
      */
     private boolean checkUserDuplicate(String name, String type) {
         boolean isDuplicate = false;
-        UserManageDemoJpa userManageDemoJpa = userRepository.findUserManageDemoByNameAndType(name, type);
+        UserManageDemoJpa userManageDemoJpa = userManageDemoJpaRepository.findUserManageDemoByNameAndType(name, type);
         // 如果数据库存在记录，则将记录添加到返回的结果集对象中
         if (userManageDemoJpa != null) {
             isDuplicate = true;

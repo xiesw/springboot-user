@@ -27,7 +27,7 @@ public class Md5Util {
      * @return md5 加密后的字符串（32位字符串）
      */
     public static final String md5(String encode) {
-        // 检验参数是否是 null 或者 ""
+        // 检验参数是否是 null 或者 "" 或者 " " 等
         if (StringUtils.isBlank(encode)) {
             return "";
         }

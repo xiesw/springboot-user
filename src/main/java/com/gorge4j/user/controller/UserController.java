@@ -51,7 +51,7 @@ public class UserController {
 
     private static Logger log = LoggerFactory.getLogger(UserController.class);
 
-    /** 自动注入 userService，用来处理业务，按需要注入具体的实现，存在多个实现切换时通过不同别名来注入 */
+    /** 注入 UserService，用来处理业务，按需要注入具体的实现，存在多个实现时，可以通过实现类的不同别名来切换注入 */
     @Resource(name = "userServiceMyBatisImpl")
     private UserService userService;
 
@@ -138,12 +138,12 @@ public class UserController {
         // 将类型码转换为中文说明
         httpSession.setAttribute(CommonConstant.USER_TYPE_NAME, UserTypeConstant.typeToDesc(loginDTO.getType()));
         // 组装结果返回
-        if (responseVO != null && ResponseConstant.SUCCESS.equals(responseVO.getCode())) {
-            // 登录成功重定向到前端首页 index.jsp，并且携带数据过去
-            return httpServletResponse.encodeRedirectURL(UrlConstant.INDEX);
+        if (responseVO == null || !ResponseConstant.SUCCESS.equals(responseVO.getCode())) {
+            // 登录失败则跳转到前端登录页面 login.jsp
+            return httpServletResponse.encodeRedirectURL(UrlConstant.LOGIN);
         }
-        // 登录失败则跳转到前端登录页面 login.jsp
-        return httpServletResponse.encodeRedirectURL(UrlConstant.LOGIN);
+        // 登录成功重定向到前端首页 index.jsp，并且携带数据过去
+        return httpServletResponse.encodeRedirectURL(UrlConstant.INDEX);
     }
 
     /** 查看用户列表 */
@@ -178,18 +178,15 @@ public class UserController {
         ResponseVO responseVO = userService.add(addDTO);
         // 将处理结果写入到返回对象中
         model.addAttribute(CommonConstant.RESPONSE_VO, responseVO);
-        // 处理成功
-        if (ResponseConstant.SUCCESS.equals(responseVO.getCode())) {
-            // 处理业务
-            List<ViewVO> lstViewVOs = userService.view();
-            if (lstViewVOs != null) {
-                model.addAttribute(CommonConstant.LST_VIEW_VOS, lstViewVOs);
-                // 开始重定向，携带数据过去
-                return httpServletResponse.encodeRedirectURL(UrlConstant.VIEW);
-            }
-        }
         // 用户添加失败，重定向到前端页面 add.jsp
-        return httpServletResponse.encodeRedirectURL(UrlConstant.ADD);
+        if (responseVO == null || !ResponseConstant.SUCCESS.equals(responseVO.getCode())) {
+            return httpServletResponse.encodeRedirectURL(UrlConstant.ADD);
+        }
+        // 处理成功
+        List<ViewVO> lstViewVOs = userService.view();
+        model.addAttribute(CommonConstant.LST_VIEW_VOS, lstViewVOs);
+        // 开始重定向，携带数据过去
+        return httpServletResponse.encodeRedirectURL(UrlConstant.VIEW);
     }
 
     /** 用户修改请求重定向到用户修改页面 modify.jsp */
@@ -203,25 +200,25 @@ public class UserController {
     @PostMapping(value = "/toModify")
     public String toModify(Model model, @Valid @ModelAttribute(value = "modifyDTO") ModifyDTO modifyDTO,
             HttpServletResponse httpServletResponse, HttpSession httpSession) {
-        // 从 session 中取得用户名字及类型
+        // 从 Session 中取得用户名字及类型
         String strName = httpSession.getAttribute(CommonConstant.USER_NAME).toString();
         String strType = httpSession.getAttribute(CommonConstant.USER_TYPE).toString();
         modifyDTO.setName(strName);
         modifyDTO.setType(strType);
         // 处理用户信息修改业务
         ResponseVO responseVO = userService.modify(modifyDTO);
-        // 将结果放入 model 中，在模板中可以取到 model 中的值
+        // 将结果放入 Model 中，在模板中可以取到 Model 中的值
         // 这里就是交互的一个重要地方，我们可以在模板中通过这些属性值访问到数据
         model.addAttribute(CommonConstant.RESPONSE_VO, responseVO);
-        if (ResponseConstant.SUCCESS.equals(responseVO.getCode())) {
-            // 密码修改成功，从 session 中删除 user 属性，用户退出登录
-            httpSession.removeAttribute(CommonConstant.USER_NAME);
-            httpSession.removeAttribute(CommonConstant.USER_TYPE);
-            // 开始重定向前端登录页面 login.jsp，并且携带数据过去
-            return httpServletResponse.encodeRedirectURL(UrlConstant.LOGIN);
+        if (responseVO == null || !ResponseConstant.SUCCESS.equals(responseVO.getCode())) {
+            // 修改失败时，继续重定向到前端用户信息修改页面 modify.jsp
+            return httpServletResponse.encodeRedirectURL(UrlConstant.MODIFY);
         }
-        // 修改失败时，继续重定向到前端用户信息修改页面 modify.jsp
-        return httpServletResponse.encodeRedirectURL(UrlConstant.MODIFY);
+        // 密码修改成功，从 Session 中删除 user 属性，用户退出登录
+        httpSession.removeAttribute(CommonConstant.USER_NAME);
+        httpSession.removeAttribute(CommonConstant.USER_TYPE);
+        // 开始重定向前端登录页面 login.jsp，并且携带数据过去
+        return httpServletResponse.encodeRedirectURL(UrlConstant.LOGIN);
     }
 
     /** 删除用户 */
@@ -232,7 +229,7 @@ public class UserController {
         ResponseVO responseVO = userService.delete(deleteDTO);
         // 这里就是交互的一个重要地方，我们可以在模板中通过这些属性值访问到数据
         model.addAttribute(CommonConstant.RESPONSE_VO, responseVO);
-        // 查询用户列表数据
+        // 删除成功后再查询用户列表数据，返回删除后的最新用户列表数据
         List<ViewVO> lstViewVOs = userService.view();
         if (lstViewVOs != null) {
             model.addAttribute(CommonConstant.LST_VIEW_VOS, lstViewVOs);
@@ -244,7 +241,7 @@ public class UserController {
     /** 注销登录 */
     @GetMapping(value = "/loginOut")
     public String loginOut(HttpSession httpSession, HttpServletResponse httpServletResponse) {
-        // 从 session 中删除 user 属性，用户退出登录
+        // 从 Session 中删除 user 属性，用户退出登录
         httpSession.removeAttribute(CommonConstant.USER_NAME);
         httpSession.removeAttribute(CommonConstant.USER_TYPE);
         // 开始重定向到前端页面 login.jsp

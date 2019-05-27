@@ -13,13 +13,15 @@ package com.gorge4j.user.constant;
 
 public final class ResponseConstant {
 
-    /** 添加私有的构造函数，防止静态常量类构造其它的实例，然后改变静态常量的内容 */
+    /** 添加私有的构造函数，防止静态常量类构造其它的实例，然后改变静态常量的值 */
     private ResponseConstant() {
         throw new IllegalStateException("Utility class");
     }
 
+    /** 处理成功时返回的 Code */
     public static final String SUCCESS = "0";
 
+    /** 业务处理失败时返回的 Code */
     public static final String FAIL = "99";
 
 }

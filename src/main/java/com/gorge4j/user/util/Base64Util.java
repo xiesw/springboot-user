@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @Title: Base64Util.java
- * @Description: Base64 加解密工具类
+ * @Description: Base64 加/解密工具类
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
  *
@@ -17,13 +17,13 @@ import org.slf4j.LoggerFactory;
  */
 
 public class Base64Util {
-    
+
     private static Logger log = LoggerFactory.getLogger(Base64Util.class);
-    
+
     private Base64Util() {
         throw new IllegalStateException("Utility class");
     }
-    
+
     /**
      * Base64 加密
      * 
@@ -38,7 +38,7 @@ public class Base64Util {
         }
         return null;
     }
-    
+
     /**
      * Base64 解密
      * 

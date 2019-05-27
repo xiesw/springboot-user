@@ -7,7 +7,7 @@ import com.gorge4j.user.entity.UserManageDemoMyBatis;
 
 /**
  * @Title: UserManageDemoMyBatisMapper.java
- * @Description: 用户管理 MyBatis 版本持久化类
+ * @Description: 用户管理系统 MyBatis 版本持久化类
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
  *

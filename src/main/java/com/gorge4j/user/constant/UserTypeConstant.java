@@ -13,7 +13,7 @@ package com.gorge4j.user.constant;
 
 public final class UserTypeConstant {
 
-    /** 添加私有的构造函数，防止静态常量类构造其它的实例，然后改变静态常量的内容 */
+    /** 添加私有的构造函数，防止静态常量类构造其它的实例，然后改变静态常量的值 */
     private UserTypeConstant() {
         throw new IllegalStateException("Utility class");
     }

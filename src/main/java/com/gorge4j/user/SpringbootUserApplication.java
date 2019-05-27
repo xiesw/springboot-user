@@ -6,7 +6,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 /**
  * @Title: SpringbootUserApplication.java
- * @Description: 服务启动类
+ * @Description: 用户管理系统服务启动类
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
  *

@@ -15,7 +15,7 @@ import com.gorge4j.user.constant.CommonConstant;
 
 /**
  * @Title: Filter0Session.java
- * @Description: 通用鉴权过滤器
+ * @Description: 通用鉴权过滤器，类名中的数字 0 代表多个过滤器执行时的顺序
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
  *
