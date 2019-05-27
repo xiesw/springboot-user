@@ -16,6 +16,10 @@
 
 ## 技术演进记录  
 
+**1.11.0-RELEASE**  
+SpringBoot集成Actuator健康检查  
+实战中有一个需求，就是要保证服务的稳定性，我们希望能实时知道服务的进程是不是活着，服务调用是否正常。从这两个维度可以监控到服务的健康状况，进程可以从运维层面解决，而健康检查需要从服务中入手，最好服务中能提供一个接口，这个接口不做任何具体的业务，只是用来检测服务的健康状态，然后我们可以通过一些定时任务或监控的检查机制，定期调这个接口，如果接口正常相应，说明服务正常。SpringBoot 可以很方便的集成健康检查的组件。首先 POM 中引入依赖 spring-boot-starter-actuator，application.properties 中添加配置 management.endpoints.web.exposure.include=*，这个是添加所有的检测端点，然后通过访问链接（例如：http://localhost:8080/actuator/health）就可以查看接口的相应结果。实战中建议按需要去开，并做好鉴权和访问规则限制等。相关内容及详细使用可查看 SpringBoot 官网的介绍 [点击查看](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html)。
+
 **1.10.1-RELEASE**  
 代码优化：优化了部分注释，规范了部分文件的命名，修复了部分不影响核心功能的小 BUG，优化了部分代码结构。
 
