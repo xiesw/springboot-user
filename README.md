@@ -11,14 +11,17 @@
 > 7、完全遵守阿里的 P3C 编码规范；  
 > 8、Findbugs 静态代码检查清零；  
 > 9、SonarLint 静态代码检查清零；  
-> 10、测试用例覆盖到 service 层的每一个接口；  
+> 10、测试用例覆盖到 Service 层的每一个接口；  
 > 11、代码统一格式化（采用了谷歌的 Java 代码模版 [去下载](https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml)，模版略有修改，下载后需导入 Eclipse 中进行部分修改后使用）。  
 
 ## 技术演进记录  
 
+**1.11.1-RELEASE**
+代码优化：Actuator 健康检查设置独立的端口，跟应用服务的端口隔离开，配置如下：management.server.port=8081 ，访问时这么访问：http://localhost:8081/actuator/health。另外优化了上一个版本中提到的 Actuator 的官网链接，也优化了 Thymeleaf 及 JPA 的部分配置。
+
 **1.11.0-RELEASE**  
 SpringBoot集成Actuator健康检查  
-实战中有一个需求，就是要保证服务的稳定性，我们希望能实时知道服务的进程是不是活着，服务调用是否正常。从这两个维度可以监控到服务的健康状况，进程可以从运维层面解决，而健康检查需要从服务中入手，最好服务中能提供一个接口，这个接口不做任何具体的业务，只是用来检测服务的健康状态，然后我们可以通过一些定时任务或监控的检查机制，定期调这个接口，如果接口正常相应，说明服务正常。SpringBoot 可以很方便的集成健康检查的组件。首先 POM 中引入依赖 spring-boot-starter-actuator，application.properties 中添加配置 management.endpoints.web.exposure.include=*，这个是添加所有的检测端点，然后通过访问链接（例如：http://localhost:8080/actuator/health）就可以查看接口的相应结果。实战中建议按需要去开，并做好鉴权和访问规则限制等。相关内容及详细使用可查看 SpringBoot 官网的介绍 [点击查看](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html)。
+实战中有一个需求，就是要保证服务的稳定性，我们希望能实时知道服务的进程是不是活着，服务调用是否正常。从这两个维度可以监控到服务的健康状况，进程可以从运维层面解决，而健康检查需要从服务中入手，最好服务中能提供一个接口，这个接口不做任何具体的业务，只是用来检测服务的健康状态，然后我们可以通过一些定时任务或监控的检查机制，定期调这个接口，如果接口正常相应，说明服务正常。SpringBoot 可以很方便的集成健康检查的组件。首先 POM 中引入依赖 spring-boot-starter-actuator，application.properties 中添加配置 management.endpoints.web.exposure.include=*，这个是添加所有的检测端点，然后通过访问链接（例如：http://localhost:8080/actuator/health）就可以查看接口的相应结果。实战中建议按需要去开，并做好鉴权和访问规则限制等。相关内容及详细使用可查看 SpringBoot 官网的介绍 [点击查看](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-actuator.html)。
 
 **1.10.1-RELEASE**  
 代码优化：优化了部分注释，规范了部分文件的命名，修复了部分不影响核心功能的小 BUG，优化了部分代码结构。
