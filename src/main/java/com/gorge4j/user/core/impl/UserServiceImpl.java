@@ -529,7 +529,9 @@ public class UserServiceImpl implements UserService {
     private void rollBack(Connection conn) {
         try {
             // 回滚事务
-            conn.rollback();
+            if (conn != null) {
+                conn.rollback();
+            }
         } catch (SQLException e) {
             // 回滚事务出现异常时打印异常信息
             log.error("回滚事务异常，异常信息：{}", e);

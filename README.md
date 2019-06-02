@@ -9,12 +9,15 @@
 > 5、管理员添加用户的功能（要求用户名不能重复）；  
 > 6、退出登录的功能（清除登录的 Session ，跳转到登录页）；  
 > 7、完全遵守阿里的 P3C 编码规范；  
-> 8、Findbugs 静态代码检查清零；  
+> 8、SpotBugs（原Findbugs） 静态代码检查清零；  
 > 9、SonarLint 静态代码检查清零；  
 > 10、测试用例覆盖到 Service 层的每一个接口；  
 > 11、代码统一格式化（采用了谷歌的 Java 代码模版 [去下载](https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml)，模版略有修改，下载后需导入 Eclipse 中进行部分修改后使用）。  
 
 ## 技术演进记录  
+
+**1.12.1-RELEASE**  
+代码优化：SpotBugs静态代码检查清零，新增部分配置解决控制台日志 WARN 警告提示的问题。
 
 **1.12.0-RELEASE**  
 SpringBoot集成Druid连接池组件  
