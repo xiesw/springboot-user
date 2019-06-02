@@ -16,7 +16,11 @@
 
 ## 技术演进记录  
 
-**1.11.1-RELEASE**
+**1.12.0-RELEASE**  
+SpringBoot集成Druid连接池组件  
+SpringBoot 集成了 JdbcTemplate 或者 JPA 组件后（POM 中引入了相关依赖），SpringBoot 会自动加载一些配置，其中就包括连接池的配置，默认的连接池配置是 Hikari 连接池。此次集成在 application.properties 中添加了 spring.datasource.type=com.alibaba.druid.pool.DruidDataSource 配置后，连接池就用成了 Druid，阿里巴巴开源的连接池，本次也集成Druid配套的监控服务（服务启动后通过此链接来访问监控的控制台：http://127.0.0.1:8080/druid/sql.html，账号密码相关配置在包com.gorge4j.user.servlet下的DruidStatViewServlet类里）。[点击查看](https://github.com/alibaba/druid/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)  
+
+**1.11.1-RELEASE**  
 代码优化：Actuator 健康检查设置独立的端口，跟应用服务的端口隔离开，配置如下：management.server.port=8081 ，访问时这么访问：http://localhost:8081/actuator/health。另外优化了上一个版本中提到的 Actuator 的官网链接，也优化了 Thymeleaf 及 JPA 的部分配置。
 
 **1.11.0-RELEASE**  

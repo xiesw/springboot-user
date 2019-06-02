@@ -10,6 +10,9 @@
     <Property name="log.path" value="${log.path:-./data/logs}" />
     <!-- log.level 为日志的打印级别，以下日志输出优先级由低到高（trace < debug < info < warn < error），例如级别为 info 时，info、warn 和 error 日志都会打印，以此类推 -->
     <Property name="log.level" value="${log.level:-info}" />
+    <!-- maxHistory 为日志历史保留的期限 -->
+    <property name="maxHistory" value="60" />
+    <property name="maxFileSize" value="15MB" />
     <contextName>${log.name}</contextName>
     <!-- 日志输出格式：%-5level：级别从左显示5个字符宽度 %logger{50}，%contextName表示上线文名称，%d表示日期时间，%thread表示线程名，表示logger名字最长50个字符，否则按照句点分割。 %msg：日志消息，%n是换行符 -->
     <Property name="patternTemplate"
@@ -29,12 +32,29 @@
             <FileNamePattern>${log.path}/${log.name}-log-%d{yyyy-MM-dd}.%i.zip</FileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                 class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>15MB</maxFileSize><!-- or whenever the file size reaches 15MB -->
+                <maxFileSize>${maxFileSize}</maxFileSize><!-- or whenever the file size reaches 15MB -->
             </timeBasedFileNamingAndTriggeringPolicy>
-            <!-- <maxHistory></maxHistory> -->
+            <maxHistory>${maxHistory}</maxHistory>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${patternTemplate}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <!-- Druid 日志的输出 -->
+    <appender name="druidSqlRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${log.path}/${log.name}/druid-sql.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"><!-- rollover daily -->
+            <FileNamePattern>${log.path}/druid-sql-log-%d{yyyy-MM-dd}.%i.zip</FileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${maxFileSize}</maxFileSize><!-- or whenever the file size reaches 15MB -->
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${patternTemplate}</pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
     <!-- 异步输出 -->
@@ -63,12 +83,18 @@
     <!-- 没有设置 addtivity，默认为 true，将此 loger 的打印信息向上级传递 -->
     <!-- 特别注意，此处的 com.gorge4j 根据实际项目情况进行修改，一般对应到公司的一级域名处 -->
     <logger name="com.gorge4j" additivity="true" level="info" />
+    <!-- 将 DAO 层的日志输出级别改为 DEBUG 可以输出 SQL 的日志，MyBatis 版本生效 -->
+    <!-- <logger name="com.gorge4j.user.dao" additivity="true" level="debug" /> -->
     <logger name="org.springframework.core.env" additivity="true" level="info" />
     <logger name="org.springframework.beans.factory.support" additivity="true" level="info" />
-    <!-- mybatis 暂时没有集成，日志暂不开启，后续集成了再开启 -->
-    <logger name="org.apache.ibatis.logging" additivity="false" level="info" />
+    <!-- MyBatis 已集成，开启日志 -->
+    <logger name="org.apache.ibatis.logging" additivity="true" level="info" />
     <logger name="org.apache.tomcat.util.net" additivity="true" level="error" />
-    <!-- 关闭 dubbo 协议日志的输出 -->
+    <!-- 关闭 Dubbo 协议日志的输出 -->
     <logger name="com.alibaba.dubbo.rpc.protocol.dubbo" additivity="false" level="OFF" />
+    <!-- Druid 的 SQL 日志的输出，level改成debug时可输出日志 -->
+    <logger name="druid.sql.Statement" additivity="false" level="info">
+        <appender-ref ref="druidSqlRollingFile" />
+    </logger>
 
 </configuration>

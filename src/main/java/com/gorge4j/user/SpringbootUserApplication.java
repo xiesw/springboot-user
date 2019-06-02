@@ -15,7 +15,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  * @version v1.0
  */
 
-@ServletComponentScan(value = "com.gorge4j.user.filter")
+@ServletComponentScan(value = {"com.gorge4j.user.filter", "com.gorge4j.user.servlet"})
 @SpringBootApplication
 public class SpringbootUserApplication {
 

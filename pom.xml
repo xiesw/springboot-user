@@ -19,7 +19,7 @@
     <!-- 定义实际项目的一个 Maven 项目（模块） -->
     <artifactId>springboot-user</artifactId>
     <!-- 定义 Maven 项目当前所处的项目的版本 -->
-    <version>1.11.1-RELEASE</version>
+    <version>1.12.0-RELEASE</version>
 
     <!-- Spring Boot 集成 JSP 打成 war 包才能独立运行，打成 war 包之后这么运行：$ java -jar springboot-user-1.0.0-RELEASE.war -->
     <packaging>jar</packaging>
@@ -86,6 +86,13 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>1.3.1</version>
         </dependency>
+        
+        <!-- 支持阿里Druid连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.16</version>
+        </dependency>
 
         <!-- 支持日志打印 -->
         <dependency>
@@ -110,6 +117,12 @@
             <artifactId>commons-collections4</artifactId>
             <version>4.3</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <!-- 支持 JUnit、 Hamcrest、Mockito 等单元测试框架 -->
         <dependency>
@@ -118,6 +131,7 @@
             <!-- 依赖项的适用范围，test：仅参与测试，包括测试代码的编译和执行 -->
             <scope>test</scope>
         </dependency>
+        
     </dependencies>
 
     <build>
