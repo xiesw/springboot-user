@@ -16,6 +16,11 @@
 
 ## 技术演进记录  
 
+
+**1.14.0-RELEASE**  
+SpringBoot集成Controller层请求参数及返回结果的打印  
+SpringBoot 集成请求参数及返回结果的切面类，将参数及结果以日志的形式打印出来。集成的方式很简单，在 com.gorge4j.user.aspect 下创建切面处理类 ReqAndRespLogAspect，留意类中方法上的扫描路径及 @Aspect 注解。
+
 **1.13.0-RELEASE**  
 SpringBoot集成Lombok组件  
 SpringBoot 集成 Lombok，以便精简部分代码。首先 IDE 需添加对 Lombok 的支持（官网里有具体的操作说明：[Eclipse集成](https://www.projectlombok.org/setup/eclipse)，[IDEA集成](https://www.projectlombok.org/setup/intellij)），另外 POM 也需添加对 Lombok 的依赖，然后将部分 POJO 类（例如：DTO、VO、Entity等）里的 Getter/Setter 方法及 Controller 层及 Service 层的日志（例如：@slf4j）换成 Lombok 对应的注解，以便精简部分代码。Lombok 的官方网址 [点击查看](https://www.projectlombok.org/)  
