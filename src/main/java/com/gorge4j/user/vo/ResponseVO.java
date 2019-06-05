@@ -1,6 +1,7 @@
 package com.gorge4j.user.vo;
 
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * @Title: ResponseVO.java
@@ -13,6 +14,7 @@ import java.io.Serializable;
  * @version v1.0
  */
 
+@Data
 public class ResponseVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,27 +22,5 @@ public class ResponseVO implements Serializable {
     private String code;
     /** 返回信息 */
     private String message;
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    /** 重写 POJO 类的 toString 方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
-    @Override
-    public String toString() {
-        return "ResponseVO [code=" + code + ", message=" + message + "]";
-    }
 
 }

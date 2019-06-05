@@ -2,6 +2,7 @@ package com.gorge4j.user.dto;
 
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
+import lombok.Data;
 
 /**
  * @Title: AddDTO.java
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotBlank;
  * @version v1.0
  */
 
+@Data
 public class AddDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,27 +25,5 @@ public class AddDTO implements Serializable {
     /** 用户密码 */
     @NotBlank(message = "用户密码不能为空")
     private String password;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /** 重写 POJO 类的 toString 方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
-    @Override
-    public String toString() {
-        return "AddDTO [name=" + name + ", password=" + password + "]";
-    }
 
 }

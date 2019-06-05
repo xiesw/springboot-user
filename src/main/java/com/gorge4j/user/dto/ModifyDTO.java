@@ -2,6 +2,7 @@ package com.gorge4j.user.dto;
 
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
+import lombok.Data;
 
 /**
  * @Title: ModifyDTO.java
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotBlank;
  * @version v1.0
  */
 
+@Data
 public class ModifyDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,52 +33,5 @@ public class ModifyDTO implements Serializable {
     /** 确认新密码 */
     @NotBlank(message = "确认新密码不能为空")
     private String confirmNewPassword;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getNewPassword() {
-        return newPassword;
-    }
-
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
-    }
-
-    public String getConfirmNewPassword() {
-        return confirmNewPassword;
-    }
-
-    public void setConfirmNewPassword(String confirmNewPassword) {
-        this.confirmNewPassword = confirmNewPassword;
-    }
-
-    /** 重写 POJO 类的 toString 方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
-    @Override
-    public String toString() {
-        return "ModifyDTO [name=" + name + ", type=" + type + ", password=" + password + ", newPassword=" + newPassword
-                + ", confirmNewPassword=" + confirmNewPassword + "]";
-    }
 
 }

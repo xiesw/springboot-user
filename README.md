@@ -16,6 +16,10 @@
 
 ## 技术演进记录  
 
+**1.13.0-RELEASE**  
+SpringBoot集成Lombok组件  
+SpringBoot 集成 Lombok，以便精简部分代码。首先 IDE 需添加对 Lombok 的支持（官网里有具体的操作说明：[Eclipse集成](https://www.projectlombok.org/setup/eclipse)，[IDEA集成](https://www.projectlombok.org/setup/intellij)），另外 POM 也需添加对 Lombok 的依赖，然后将部分 POJO 类（例如：DTO、VO、Entity等）里的 Getter/Setter 方法及 Controller 层及 Service 层的日志（例如：@slf4j）换成 Lombok 对应的注解，以便精简部分代码。Lombok 的官方网址 [点击查看](https://www.projectlombok.org/)  
+
 **1.12.1-RELEASE**  
 代码优化：SpotBugs静态代码检查清零，新增部分配置解决控制台日志 WARN 警告提示的问题。
 

@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
+import lombok.Data;
 
 /**
  * @Title: UserManageDemoJpa.java
@@ -20,6 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @version v1.0
  */
 
+@Data
 @Entity
 @Table(name = "user_manage_demo")
 public class UserManageDemoJpa implements Serializable {
@@ -44,67 +46,5 @@ public class UserManageDemoJpa implements Serializable {
     private Date gmtModified;
     /** 记录是否删除 */
     private Boolean isDelete;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
-
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
-
-    public Boolean getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(Boolean isDelete) {
-        this.isDelete = isDelete;
-    }
-
-    @Override
-    public String toString() {
-        return "UserManageDemoJpa [id=" + id + ", name=" + name + ", password=" + password + ", type=" + type
-                + ", gmtCreate=" + gmtCreate + ", gmtModified=" + gmtModified + ", isDelete=" + isDelete + "]";
-    }
 
 }

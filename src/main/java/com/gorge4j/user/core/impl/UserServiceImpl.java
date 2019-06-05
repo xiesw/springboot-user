@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.gorge4j.user.constant.ResponseConstant;
 import com.gorge4j.user.constant.SqlConstant;
@@ -24,6 +22,7 @@ import com.gorge4j.user.util.Base64Util;
 import com.gorge4j.user.util.Md5Util;
 import com.gorge4j.user.vo.ResponseVO;
 import com.gorge4j.user.vo.ViewVO;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Title: UserServiceImpl.java
@@ -36,10 +35,9 @@ import com.gorge4j.user.vo.ViewVO;
  * @version v1.0
  */
 
+@Slf4j
 @Service("userServiceImpl")
 public class UserServiceImpl implements UserService {
-
-    private static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     /** 用户注册 */
     @Override

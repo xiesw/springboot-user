@@ -3,8 +3,6 @@ package com.gorge4j.user.handler;
 import java.util.HashMap;
 import java.util.Map;
 import javax.validation.ValidationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.gorge4j.user.enumeration.ResponseCodeTypeEnum;
 import com.gorge4j.user.vo.ResponseVO;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Title: GlobalExceptionHandler.java
@@ -27,11 +26,10 @@ import com.gorge4j.user.vo.ResponseVO;
  * @version v1.0
  */
 
+@Slf4j
 @ControllerAdvice
 @ResponseBody
 public class GlobalExceptionHandler {
-
-    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     /**
      * SpringMVC层参数的校验异常

@@ -2,6 +2,7 @@ package com.gorge4j.user.vo;
 
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * @Title: ViewVO.java
@@ -14,6 +15,7 @@ import java.util.Date;
  * @version v1.0
  */
 
+@Data
 public class ViewVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,43 +28,5 @@ public class ViewVO implements Serializable {
     private String type;
     /** 用户创建时间 */
     private Date gmtCreate;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
-
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
-
-    /** 重写 POJO 类的 toString 方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
-    @Override
-    public String toString() {
-        return "ViewVO [id=" + id + ", name=" + name + ", type=" + type + ", gmtCreate=" + gmtCreate + "]";
-    }
 
 }

@@ -2,6 +2,7 @@ package com.gorge4j.user.dto;
 
 import java.io.Serializable;
 import javax.validation.constraints.NotNull;
+import lombok.Data;
 
 /**
  * @Title: DeleteDTO.java
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
  * @version v1.0
  */
 
+@Data
 public class DeleteDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,19 +23,5 @@ public class DeleteDTO implements Serializable {
     /** 用户id */
     @NotNull(message = "用户id不能为空")
     private Integer id;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /** 重写 POJO 类的 toString 方法，方便在输出对象时能看到具体的参数信息，而不是一串无业务意义的字符 */
-    @Override
-    public String toString() {
-        return "DeleteDTO [id=" + id + "]";
-    }
 
 }

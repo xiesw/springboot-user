@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +32,7 @@ import com.gorge4j.user.dto.RegisterDTO;
 import com.gorge4j.user.util.ImageCodeUtil;
 import com.gorge4j.user.vo.ResponseVO;
 import com.gorge4j.user.vo.ViewVO;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Title: UserController.java
@@ -46,15 +45,14 @@ import com.gorge4j.user.vo.ViewVO;
  * @version v1.0
  */
 
+@Slf4j
 @Controller
 public class UserController {
-
-    private static Logger log = LoggerFactory.getLogger(UserController.class);
 
     /** 注入 UserService，用来处理业务，按需要注入具体的实现，存在多个实现时，可以通过实现类的不同别名来切换注入 */
     @Resource(name = "userServiceMyBatisImpl")
     private UserService userService;
-
+    
     /** 注册请求重定向到首页 index.jsp */
     @GetMapping(value = "/index")
     public String index(HttpServletResponse httpServletResponse) {

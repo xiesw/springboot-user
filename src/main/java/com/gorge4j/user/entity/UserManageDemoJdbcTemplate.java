@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.jdbc.core.RowMapper;
+import lombok.Data;
 
 /**
  * @Title: UserManageDemoJdbcTemplate.java
@@ -18,6 +19,7 @@ import org.springframework.jdbc.core.RowMapper;
  * @version v1.0
  */
 
+@Data
 public class UserManageDemoJdbcTemplate implements RowMapper<UserManageDemoJdbcTemplate>, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,68 +40,6 @@ public class UserManageDemoJdbcTemplate implements RowMapper<UserManageDemoJdbcT
     private Date gmtModified;
     /** 记录是否删除 */
     private Boolean isDelete;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
-
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
-
-    public Boolean getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(Boolean isDelete) {
-        this.isDelete = isDelete;
-    }
-
-    @Override
-    public String toString() {
-        return "UserManageDemoJdbcTemplate [id=" + id + ", name=" + name + ", password=" + password + ", type=" + type
-                + ", gmtCreate=" + gmtCreate + ", gmtModified=" + gmtModified + ", isDelete=" + isDelete + "]";
-    }
 
     /**
      * 用于将结果集每行数据转换为需要的类型
