@@ -3,6 +3,7 @@ package com.gorge4j.user;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @Title: SpringbootUserApplication.java
@@ -15,6 +16,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  * @version v1.0
  */
 
+@EnableScheduling
 @ServletComponentScan(value = {"com.gorge4j.user.filter", "com.gorge4j.user.servlet"})
 @SpringBootApplication
 public class SpringbootUserApplication {

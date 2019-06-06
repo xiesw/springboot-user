@@ -16,6 +16,9 @@
 
 ## 技术演进记录  
 
+**1.15.0-RELEASE**  
+SpringBoot集成定时任务  
+SpringBoot 集成定时任务非常简单，启动类 SpringbootUserApplication 加上注解 @EnableScheduling 以便支持定时任务的注解。然后在需要支持定时任务的方法上添加类似如下注解 @Scheduled(cron = "0/30 * * * * ?") 来支持定时任务，括弧里代表了时间的参数配置，详细请参考官网的用法及解释 [点击查看](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/EnableScheduling.html)  
 
 **1.14.0-RELEASE**  
 SpringBoot集成Controller层请求参数及返回结果的打印  
