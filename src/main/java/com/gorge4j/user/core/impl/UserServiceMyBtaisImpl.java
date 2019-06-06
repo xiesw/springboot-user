@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.gorge4j.user.constant.ResponseConstant;
@@ -186,6 +187,7 @@ public class UserServiceMyBtaisImpl implements UserService {
 
     /** 删除用户 */
     @Override
+    @Async
     @Transactional(rollbackFor = Exception.class)
     public ResponseVO delete(DeleteDTO deleteDTO) {
         // 定义返回的结果对象

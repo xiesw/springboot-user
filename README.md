@@ -16,6 +16,10 @@
 
 ## 技术演进记录  
 
+**1.16.0-RELEASE**  
+SpringBoot集成异步处理  
+SpringBoot 集成异步处理非常简单，启动类 SpringbootUserApplication 加上注解 @EnableAsync 以便支持异步的注解。然后在需要支持异步的方法上添加 @Async 注解来支持异步。注意在同一个类内部进行异步方法的调用是失效的，本次集成的例子是在 Controller 层调用 Service 层的异步方法。例子中删除用户的方法变成异步后，可以看到删除用户后在用户列表里依然存在，需要刷新之后才会消失，很明显的能看到异步的效果，注意查看效果时 Service 的实现是 MyBatis 版本，如果需要切换回同步调用，删除上述内容中提到的 @EnableAsync 和 @Async 即可。  
+
 **1.15.0-RELEASE**  
 SpringBoot集成定时任务  
 SpringBoot 集成定时任务非常简单，启动类 SpringbootUserApplication 加上注解 @EnableScheduling 以便支持定时任务的注解。然后在需要支持定时任务的方法上添加类似如下注解 @Scheduled(cron = "0/30 * * * * ?") 来支持定时任务，括弧里代表了时间的参数配置，详细请参考官网的用法及解释 [点击查看](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/EnableScheduling.html)  
