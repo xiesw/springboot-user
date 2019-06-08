@@ -16,9 +16,12 @@
 
 ## 技术演进记录  
 
+**1.16.1-RELEASE**  
+代码优化：小部分代码不符合阿里 P3C 规范的修改，之前 P3C 插件有段时间故障，卸载插件重新安装了一下，再次扫描了代码。另外，添加了部分集成技术或组件的官网或者藏考网址。   
+
 **1.16.0-RELEASE**  
 SpringBoot集成异步处理  
-SpringBoot 集成异步处理非常简单，启动类 SpringbootUserApplication 加上注解 @EnableAsync 以便支持异步的注解。然后在需要支持异步的方法上添加 @Async 注解来支持异步。注意在同一个类内部进行异步方法的调用是失效的，本次集成的例子是在 Controller 层调用 Service 层的异步方法。例子中删除用户的方法变成异步后，可以看到删除用户后在用户列表里依然存在，需要刷新之后才会消失，很明显的能看到异步的效果，注意查看效果时 Service 的实现是 MyBatis 版本，如果需要切换回同步调用，删除上述内容中提到的 @EnableAsync 和 @Async 即可。  
+SpringBoot 集成异步处理非常简单，启动类 SpringbootUserApplication 加上注解 @EnableAsync 以便支持异步的注解。然后在需要支持异步的方法上添加 @Async 注解来支持异步。注意在同一个类内部进行异步方法的调用是失效的，本次集成的例子是在 Controller 层调用 Service 层的异步方法。例子中删除用户的方法变成异步后，可以看到删除用户后在用户列表里依然存在，需要刷新之后才会消失，很明显的能看到异步的效果，注意查看效果时 Service 的实现是 MyBatis 版本，如果需要切换回同步调用，删除上述内容中提到的 @EnableAsync 和 @Async 即可。详细请参考官网的用法和解释 [点击查看](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/EnableAsync.html)  
 
 **1.15.0-RELEASE**  
 SpringBoot集成定时任务  
@@ -26,7 +29,7 @@ SpringBoot 集成定时任务非常简单，启动类 SpringbootUserApplication 
 
 **1.14.0-RELEASE**  
 SpringBoot集成Controller层请求参数及返回结果的打印  
-SpringBoot 集成请求参数及返回结果的切面类，将参数及结果以日志的形式打印出来。集成的方式很简单，在 com.gorge4j.user.aspect 下创建切面处理类 ReqAndRespLogAspect，留意类中方法上的扫描路径及 @Aspect 注解。
+SpringBoot 集成请求参数及返回结果的切面类，将参数及结果以日志的形式打印出来。集成的方式很简单，在 com.gorge4j.user.aspect 下创建切面处理类 ReqAndRespLogAspect，留意类中方法上的扫描路径及 @Aspect 注解。AspectJ 的官网 [点击查看](https://www.eclipse.org/aspectj/)，学习的网站 [点击查看](https://www.baeldung.com/aspectj)。
 
 **1.13.0-RELEASE**  
 SpringBoot集成Lombok组件  
@@ -37,7 +40,7 @@ SpringBoot 集成 Lombok，以便精简部分代码。首先 IDE 需添加对 Lo
 
 **1.12.0-RELEASE**  
 SpringBoot集成Druid连接池组件  
-SpringBoot 集成了 JdbcTemplate 或者 JPA 组件后（POM 中引入了相关依赖），SpringBoot 会自动加载一些配置，其中就包括连接池的配置，默认的连接池配置是 Hikari 连接池。此次集成在 application.properties 中添加了 spring.datasource.type=com.alibaba.druid.pool.DruidDataSource 配置后，连接池就用成了 Druid，阿里巴巴开源的连接池，本次也集成Druid配套的监控服务（服务启动后通过此链接来访问监控的控制台：http://127.0.0.1:8080/druid/sql.html，账号密码相关配置在包com.gorge4j.user.servlet下的DruidStatViewServlet类里）。[点击查看](https://github.com/alibaba/druid/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)  
+SpringBoot 集成了 JdbcTemplate 或者 JPA 组件后（POM 中引入了相关依赖），SpringBoot 会自动加载一些配置，其中就包括连接池的配置，默认的连接池配置是 Hikari 连接池。此次集成在 application.properties 中添加了 spring.datasource.type=com.alibaba.druid.pool.DruidDataSource 配置后，连接池就用成了 Druid，阿里巴巴开源的连接池，本次也集成Druid配套的监控服务（服务启动后通过此链接来访问监控的控制台：http://127.0.0.1:8080/druid/sql.html，账号密码相关配置在包com.gorge4j.user.servlet下的DruidStatViewServlet类里）。官网 [点击查看](https://github.com/alibaba/druid/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)  
 
 **1.11.1-RELEASE**  
 代码优化：Actuator 健康检查设置独立的端口，跟应用服务的端口隔离开，配置如下：management.server.port=8081 ，访问时这么访问：http://localhost:8081/actuator/health。另外优化了上一个版本中提到的 Actuator 的官网链接，也优化了 Thymeleaf 及 JPA 的部分配置。
@@ -67,7 +70,7 @@ SpringBoot集成JPA持久化组件
 **1.8.1-RELEASE**  
 此版本集成了 JdbcTemplate 注解式事务
 上一个版本集成了 JdbcTemplate 持久化组件，这里有一个问题，就是没有添加对事务的支持。之前也提到，事务在工作实践中非常重要，那么这个版本来集成一下事务，我们先实现注解式的事务，效果是在 UserServiceJdbcTemplateImpl 类需要做事务控制的方法上添加 @Transactional(rollbackFor = Exception.class) 注解即可支持事务。在启动类 SpringBootUserApplication 里加上注解 @EnableTransactionManagement 等同于在XML配置文件里加上 <tx:annotation-driven /> 配置。POM 里添加依赖 spring-boot-starter-jdbc 之后，框架会默认注入 DataSourceTransactionManager 实例。
-总结一下：POM 里添加依赖 spring-boot-starter-jdbc 之后，只需要在方法上添加 @Transactional(rollbackFor = Exception.class) 注解即可支持事务，启动类 SpringBootUserApplication 不需要添加注解 @EnableTransactionManagement，也不需要通过配置文件添加 <tx:annotation-driven />配置。
+总结一下：POM 里添加依赖 spring-boot-starter-jdbc 之后，只需要在方法上添加 @Transactional(rollbackFor = Exception.class) 注解即可支持事务，启动类 SpringBootUserApplication 不需要添加注解 @EnableTransactionManagement，也不需要通过配置文件添加 <tx:annotation-driven />配置。参考网址 [点击查看](https://www.ibm.com/developerworks/cn/java/j-master-spring-transactional-use/)
 
 **1.8.0-RELEASE**  
 此版本集成了 JdbcTemplate 持久化组件  
@@ -75,7 +78,7 @@ SpringBoot集成JPA持久化组件
 
 **1.7.0-RELEASE**  
 SpringBoot集成JDBC事务的控制  
-数据库数据的一致性在工作实战中是非常重要的一件事，要特别重视，一方面建议在数据库表设计表结构的时候加上业务唯一索引（可能是单个字段的索引，也可能是多字段的联合索引），另一方面要在代码层面处理好事务的事情，在逻辑处理出现异常的时候及时回滚事务，此版本实现了 JDBC 的事务控制。实际工作中一定要非常注意这个问题，确保加上了事务控制的逻辑，同时一定要去验证确认事务逻辑确实有效。因为脏数据的处理非常的麻烦，并且容易引发其它问题。
+数据库数据的一致性在工作实战中是非常重要的一件事，要特别重视，一方面建议在数据库表设计表结构的时候加上业务唯一索引（可能是单个字段的索引，也可能是多字段的联合索引），另一方面要在代码层面处理好事务的事情，在逻辑处理出现异常的时候及时回滚事务，此版本实现了 JDBC 的事务控制。实际工作中一定要非常注意这个问题，确保加上了事务控制的逻辑，同时一定要去验证确认事务逻辑确实有效。因为脏数据的处理非常的麻烦，并且容易引发其它问题。关于数据库事务的百度百科 [点击查看](https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/9744607)
 
 **1.6.1-RELEASE**  
 代码优化：替换了部分常量，按照标准格式化了前端代码，增加了部分注释，优化了部分小bug，提升了部分代码的可读性
@@ -94,11 +97,11 @@ SpringBoot集成Controller层参数校验及全局异常的处理
 
 **1.3.0-RELEASE**  
 SpringBoot集成Logback日志组件  
-日志在开发工作中的重要性不言而喻，程序的调试、问题的定位、数据的分析甚至程序的监控等都离不开日志数据，JDK 也有相关的日志工具 java.util.logging ，但是功能不够强大。Logback 是日志组件中的比较优秀的，使用方面目前在市场上属于主流，在易用性、灵活配置（包括日志级别的控制、日志传递的控制、日志应用范围的控制等）方面有比较大的优势。此版本集成了 Logback 的日志打印组件，关于如何配置 logback.xml 里有详细的注释。集成的方式，除了需添加 logback.xml 配置文件，pom 的依赖里也需要加上 spring-boot-starter-logging 的依赖，然后程序里的需定义日志的实例（例如：private static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);），还需要注意 import 导入的具体包（import org.slf4j.Logger; 和 import org.slf4j.LoggerFactory;），详情见包 com.gorge4j.user.core.impl 下的 UserServiceImpl 类中的实例。
+日志在开发工作中的重要性不言而喻，程序的调试、问题的定位、数据的分析甚至程序的监控等都离不开日志数据，JDK 也有相关的日志工具 java.util.logging ，但是功能不够强大。Logback 是日志组件中的比较优秀的，使用方面目前在市场上属于主流，在易用性、灵活配置（包括日志级别的控制、日志传递的控制、日志应用范围的控制等）方面有比较大的优势。此版本集成了 Logback 的日志打印组件，关于如何配置 logback.xml 里有详细的注释。集成的方式，除了需添加 logback.xml 配置文件，pom 的依赖里也需要加上 spring-boot-starter-logging 的依赖，然后程序里的需定义日志的实例（例如：private static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);），还需要注意 import 导入的具体包（import org.slf4j.Logger; 和 import org.slf4j.LoggerFactory;），详情见包 com.gorge4j.user.core.impl 下的 UserServiceImpl 类中的实例。[查看官网](https://logback.qos.ch/)
 
 **1.2.0-RELEASE**  
 SpringBoot集成Thymeleaf前端模版引擎  
-Spring Boot 官方推荐的前端模版引擎是 Thymeleaf，此版本集成了 Thymeleaf ，实现功能跟 JSP 版本基本没有差异，有部分细节展示上有细微的差异。JSP/Thymeleaf 可以并存，那如何切换呢？可以通过配置文件 application.properties 下的 spring.thymeleaf.enabled 配置来切换，当 spring.thymeleaf.enabled=true 时 Thymeleaf 模版引擎生效，当 spring.thymeleaf.enabled=false 时 JSP 模版引擎生效。注意一个细节，如果要打包然后运行，pom 的 packaging 配置需要改成 jar，当以 jsp 版本打包运行时需改回 war，这个细节需注意。
+Spring Boot 官方推荐的前端模版引擎是 Thymeleaf（[官网查看](https://www.thymeleaf.org/)），此版本集成了 Thymeleaf ，实现功能跟 JSP 版本基本没有差异，有部分细节展示上有细微的差异。JSP/Thymeleaf 可以并存，那如何切换呢？可以通过配置文件 application.properties 下的 spring.thymeleaf.enabled 配置来切换，当 spring.thymeleaf.enabled=true 时 Thymeleaf 模版引擎生效，当 spring.thymeleaf.enabled=false 时 JSP 模版引擎生效。注意一个细节，如果要打包然后运行，pom 的 packaging 配置需要改成 jar，当以 jsp 版本打包运行时需改回 war，这个细节需注意。
 
 **1.1.0-RELEASE**  
 SpringBoot集成登录密码的MD5加密  
@@ -112,7 +115,7 @@ UPDATE `springboot-user-demo`.`user_manage_demo` SET password = 'e10adc3949ba59a
 
 **1.0.0-RELEASE**  
 通过SpringBoot+JSP+MySQL实现简单的用户管理系统  
-采用了Spring Boot + JSP + MySQL，并使用了 JSP 的 JSTL 标签，实现了简单的用户管理系统，完全遵守阿里 P3C规范、Findbugs 告警清零、SonarLint 告警清零，代码格式化使用了谷歌的 Java 代码格式模版 [去下载](https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml)（调整了缩进<2个改成了4个>和换行<100改到了阿里 P3C 要求的120>），模版文件下载后需导入 Eclipse 中进行部分修改后使用；
+采用了Spring Boot + JSP + MySQL，并使用了 JSP 的 JSTL 标签，实现了简单的用户管理系统，完全遵守阿里 P3C规范（安装地址：https://p3c.alibaba.com/plugin/eclipse/update，在 Eclipse 里通过 “帮助”——>“安装新软件”，然后输入安装地址来安装）、Findbugs / SpotBugs（[官网查看](https://spotbugs.github.io/)，Eclipse可以在应用市场里直接安装） 告警清零、SonarLint （[官网查看](https://www.sonarlint.org/)）告警清零，代码格式化使用了谷歌的 Java 代码格式模版 [去下载](https://github.com/google/styleguide/blob/gh-pages/eclipse-java-google-style.xml)（调整了缩进<2个改成了4个>和换行<100改到了阿里 P3C 要求的120>），模版文件下载后需导入 Eclipse 中进行部分修改后使用；
 
 ### 采用的技术栈
 基础技术栈是 Spring Boot + MySQL + JSP/Thymeleaf，目标是以技术演进的方式，以解决问题的视角，逐步集成各种技术，最终过渡到一个可以投入到实战开发的脚手架项目。  

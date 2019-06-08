@@ -52,7 +52,7 @@ public class UserController {
     /** 注入 UserService，用来处理业务，按需要注入具体的实现，存在多个实现时，可以通过实现类的不同别名来切换注入 */
     @Resource(name = "userServiceMyBatisImpl")
     private UserService userService;
-    
+
     /** 注册请求重定向到首页 index.jsp */
     @GetMapping(value = "/index")
     public String index(HttpServletResponse httpServletResponse) {

@@ -61,6 +61,7 @@ public interface UserManageDemoJpaRepository extends JpaRepository<UserManageDem
      * @param password 用户密码
      * @param name 用户名
      * @param type 用户类型
+     * @param gmtModified 修改时间
      * @return
      */
     @Modifying
@@ -72,6 +73,7 @@ public interface UserManageDemoJpaRepository extends JpaRepository<UserManageDem
      * 通过id逻辑删除用户
      * 
      * @param id 用户id
+     * @param gmtModified 修改时间
      * @return
      */
     @Modifying

@@ -31,7 +31,6 @@ import com.gorge4j.user.vo.ViewVO;
  * @version v1.0
  */
 
-/* 实现类设置了一个别名，方便Controller层引用的时候来切换 */
 @Service("userServiceJpaImpl")
 public class UserServiceJpaImpl implements UserService {
 
