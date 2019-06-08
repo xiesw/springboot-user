@@ -2,6 +2,8 @@ package com.gorge4j.user.dto;
 
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -15,14 +17,17 @@ import lombok.Data;
  * @version v1.0
  */
 
+@ApiModel("用户新增实体")
 @Data
 public class AddDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     /** 用户名 */
+    @ApiModelProperty("用户 name")
     @NotBlank(message = "用户名不能为空")
     private String name;
     /** 用户密码 */
+    @ApiModelProperty("用户 password")
     @NotBlank(message = "用户密码不能为空")
     private String password;
 

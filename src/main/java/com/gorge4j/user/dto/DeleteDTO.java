@@ -2,6 +2,8 @@ package com.gorge4j.user.dto;
 
 import java.io.Serializable;
 import javax.validation.constraints.NotNull;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -15,12 +17,14 @@ import lombok.Data;
  * @version v1.0
  */
 
+@ApiModel("用户删除实体")
 @Data
 public class DeleteDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /** 用户id */
+    @ApiModelProperty("用户 id")
     @NotNull(message = "用户id不能为空")
     private Integer id;
 

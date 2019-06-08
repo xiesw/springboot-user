@@ -32,7 +32,10 @@ import com.gorge4j.user.dto.RegisterDTO;
 import com.gorge4j.user.util.ImageCodeUtil;
 import com.gorge4j.user.vo.ResponseVO;
 import com.gorge4j.user.vo.ViewVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @Title: UserController.java
@@ -45,6 +48,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version v1.0
  */
 
+@Api(tags = "用户相关接口", description = "提供用户相关的 API 接口")
 @Slf4j
 @Controller
 public class UserController {
@@ -54,6 +58,7 @@ public class UserController {
     private UserService userService;
 
     /** 注册请求重定向到首页 index.jsp */
+    @ApiIgnore
     @GetMapping(value = "/index")
     public String index(HttpServletResponse httpServletResponse) {
         // 重定向到前端页面 index.jsp
@@ -61,6 +66,7 @@ public class UserController {
     }
 
     /** 注册请求重定向到用户注册页面 register.jsp */
+    @ApiIgnore
     @GetMapping(value = "/register")
     public String register(HttpServletResponse response) {
         // 重定向到前端页面 register.jsp
@@ -68,6 +74,7 @@ public class UserController {
     }
 
     /** 处理用户注册的请求 */
+    @ApiOperation("用户注册接口")
     @PostMapping(value = "/toRegister")
     public String toRegister(Model model, @Valid @ModelAttribute(value = "registerDTO") RegisterDTO registerDTO,
             HttpServletResponse httpServletResponse) {
@@ -86,6 +93,7 @@ public class UserController {
     }
 
     /** 登录请求重定向到用户登录页面 login.jsp */
+    @ApiIgnore
     @GetMapping(value = "/login")
     public String login(HttpServletResponse httpServletResponse) {
         // 重定向到前端页面 login.jsp
@@ -93,6 +101,7 @@ public class UserController {
     }
 
     /** 处理用户登录的请求 */
+    @ApiIgnore
     @PostMapping(value = "/toLogin")
     public String toLogin(Model model, @Valid @ModelAttribute(value = "loginDTO") LoginDTO loginDTO,
             HttpServletResponse httpServletResponse, HttpSession httpSession) {
@@ -145,6 +154,7 @@ public class UserController {
     }
 
     /** 查看用户列表 */
+    @ApiIgnore
     @GetMapping(value = "/view")
     public String view(HttpServletResponse response) {
         // 重定向到前端 view.jsp
@@ -152,6 +162,7 @@ public class UserController {
     }
 
     /** 处理查看用户列表的请求 */
+    @ApiIgnore
     @GetMapping(value = "/toView")
     public String toView(Model model, HttpServletResponse httpServletResponse) {
         // 处理用户列表查看业务
@@ -162,6 +173,7 @@ public class UserController {
     }
 
     /** 新增用户请求重定向到用户添加页面 */
+    @ApiIgnore
     @GetMapping(value = "/add")
     public String addUser(HttpServletResponse httpServletResponse) {
         // 重定向到前端页面 add.jsp
@@ -169,6 +181,7 @@ public class UserController {
     }
 
     /** 处理新增用户的请求 */
+    @ApiOperation("用户新增接口")
     @PostMapping(value = "/toAdd")
     public String toAdd(Model model, @Valid @ModelAttribute(value = "addDTO") AddDTO addDTO,
             HttpServletResponse httpServletResponse) {
@@ -188,6 +201,7 @@ public class UserController {
     }
 
     /** 用户修改请求重定向到用户修改页面 modify.jsp */
+    @ApiIgnore
     @GetMapping(value = "/modify")
     public String modify(HttpServletResponse httpServletResponse) {
         // 重定向到 modify.jsp 页面
@@ -195,6 +209,7 @@ public class UserController {
     }
 
     /** 处理用户信息修改的请求 */
+    @ApiIgnore
     @PostMapping(value = "/toModify")
     public String toModify(Model model, @Valid @ModelAttribute(value = "modifyDTO") ModifyDTO modifyDTO,
             HttpServletResponse httpServletResponse, HttpSession httpSession) {
@@ -220,6 +235,7 @@ public class UserController {
     }
 
     /** 删除用户 */
+    @ApiOperation("删除用户接口")
     @GetMapping(value = "/delete")
     public String delete(Model model, @Valid @ModelAttribute(value = "deleteDTO") DeleteDTO deleteDTO,
             HttpServletResponse httpServletResponse) {
@@ -237,6 +253,7 @@ public class UserController {
     }
 
     /** 注销登录 */
+    @ApiIgnore
     @GetMapping(value = "/loginOut")
     public String loginOut(HttpSession httpSession, HttpServletResponse httpServletResponse) {
         // 从 Session 中删除 user 属性，用户退出登录
@@ -251,6 +268,7 @@ public class UserController {
      * 
      * @throws NoSuchAlgorithmException
      */
+    @ApiIgnore
     @GetMapping(value = "/imageCode")
     public String imagecode(HttpServletRequest request, HttpServletResponse response)
             throws IOException, NoSuchAlgorithmException {
