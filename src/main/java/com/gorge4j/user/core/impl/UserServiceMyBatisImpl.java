@@ -22,7 +22,7 @@ import com.gorge4j.user.vo.ResponseVO;
 import com.gorge4j.user.vo.ViewVO;
 
 /**
- * @Title: UserServiceMyBtaisImpl.java
+ * @Title: UserServiceMyBatisImpl.java
  * @Description: 用户管理系统 MyBatis 版本实现类
  * @Copyright: © 2019 ***
  * @Company: ***有限公司
@@ -33,7 +33,7 @@ import com.gorge4j.user.vo.ViewVO;
  */
 
 @Service("userServiceMyBatisImpl")
-public class UserServiceMyBtaisImpl implements UserService {
+public class UserServiceMyBatisImpl implements UserService {
 
     @Autowired
     UserManageDemoMyBatisMapper userManageDemoMyBatisMapper;
