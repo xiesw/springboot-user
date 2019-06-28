@@ -16,6 +16,14 @@
 
 ## 技术演进记录  
 
+**1.18.0-RELEASE**  
+SpringBoot添加自定义规则校验器注解  
+Bean Validation 是一个数据验证规范，属于 Java EE 6 的子规范，规范的参考实现为 hibernate-validator，也是 Spring 框架推荐使用的实现。AbstractMessageInterpolator 消息解析有优先顺序，从高到底：ValidationMessages\*.properties > ContributorValidationMessages\*.properties > org.hibernate.validator.ValidationMessages\*.properties 顺序。  
+  
+
+**1.17.1-RELEASE**  
+代码优化：修改拼写错误的文件命名。  
+
 **1.17.0-RELEASE**  
 SpringBoot集成Swagger组件  
 Swagger 是用于 API 接口的描述可视化组件，可以将服务中的 API 接口通过网页服务的形式展现出来，解决工作中接口文档更新维护不及时的难题，并可用于接口的单元测试。Swagger 组件的集成，首先在 POM 中引入相关的依赖，然后增加 Swagger 的配置类，接着在需要生成描述的接口上加上必要的注解就集成完毕了。本例中有个特殊情况是之前集成了 Filter 相关的内容，因为 Swagger 需要开放 HTTP 服务，所以也需要加过滤器，否则会被拦截，这点需要注意。  

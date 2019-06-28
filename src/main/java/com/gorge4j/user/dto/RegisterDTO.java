@@ -2,6 +2,8 @@ package com.gorge4j.user.dto;
 
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
+import com.gorge4j.user.validator.Name;
+import com.gorge4j.user.validator.Password;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -26,10 +28,12 @@ public class RegisterDTO implements Serializable {
     /** 用户名 */
     @ApiModelProperty("用户 name")
     @NotBlank(message = "用户名不能为空")
+    @Name
     private String name;
     /** 用户密码 */
     @ApiModelProperty("用户 password")
     @NotBlank(message = "用户密码不能为空")
+    @Password
     private String password;
 
 }
