@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gorge4j.user.constant.ResponseConstant;
 import com.gorge4j.user.constant.UserTypeConstant;
 import com.gorge4j.user.core.UserService;
-import com.gorge4j.user.dao.UserManageDemoMyBatisMapper;
 import com.gorge4j.user.dto.AddDTO;
 import com.gorge4j.user.dto.DeleteDTO;
 import com.gorge4j.user.dto.LoginDTO;
 import com.gorge4j.user.dto.ModifyDTO;
 import com.gorge4j.user.dto.RegisterDTO;
 import com.gorge4j.user.entity.UserManageDemoMyBatis;
+import com.gorge4j.user.mapper.UserManageDemoMyBatisMapper;
 import com.gorge4j.user.util.Md5Util;
 import com.gorge4j.user.vo.ResponseVO;
 import com.gorge4j.user.vo.ViewVO;
@@ -170,8 +170,9 @@ public class UserServiceMyBatisImpl implements UserService {
         }
         Date date = new Date();
         // 更新用户的信息
-        int iUpdate = userManageDemoMyBatisMapper.updatePasswordByNameAndType(Md5Util.md5(modifyDTO.getNewPassword()),
-                modifyDTO.getName(), modifyDTO.getType(), date);
+        userManageDemoMyBatis.setPassword(Md5Util.md5(modifyDTO.getNewPassword()));
+        userManageDemoMyBatis.setGmtModified(date);
+        int iUpdate = userManageDemoMyBatisMapper.update(userManageDemoMyBatis);
         if (iUpdate != 1) {
             // 组装返回的结果对象
             responseVO.setCode(ResponseConstant.FAIL);

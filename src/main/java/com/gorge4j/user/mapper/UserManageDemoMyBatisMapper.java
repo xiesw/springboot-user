@@ -1,4 +1,4 @@
-package com.gorge4j.user.dao;
+package com.gorge4j.user.mapper;
 
 import java.util.Date;
 import java.util.List;
@@ -57,6 +57,14 @@ public interface UserManageDemoMyBatisMapper {
      * @return
      */
     int updatePasswordByNameAndType(String password, String name, String type, Date gmtModified);
+    
+    /**
+     * 更新用户信息
+     * 
+     * @param userManageDemoMyBatis
+     * @return
+     */
+    int update(UserManageDemoMyBatis userManageDemoMyBatis);
 
     /**
      * 通过用户id更新用户状态

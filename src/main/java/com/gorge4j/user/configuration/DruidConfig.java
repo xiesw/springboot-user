@@ -24,4 +24,5 @@ public class DruidConfig {
     public DruidDataSource druidDataSource() {
         return new DruidDataSource();
     }
+
 }

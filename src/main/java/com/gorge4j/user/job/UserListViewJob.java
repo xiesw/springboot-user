@@ -28,7 +28,7 @@ public class UserListViewJob {
     private UserService userService;
 
     /** 每隔 30 秒打印以下最新普通用户的列表信息 */
-    @Scheduled(cron = "0/30 * * * * ?")
+    @Scheduled(cron = "0 * 8 * * ?")
     public void job() {
         List<ViewVO> lstViewVOs = userService.view();
         for (ViewVO viewVO : lstViewVOs) {

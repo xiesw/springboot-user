@@ -19,7 +19,7 @@ public class RegexConstant {
     }
     
     /** 用户名要求只能是小写字母及数字 */
-    public static final String REGEX_NAME = "^[a-z|0-9]{30}$";
+    public static final String REGEX_NAME = "^[a-z|0-9]{6,30}$";
     
     /** 密码要求六位纯数字 */
     public static final String REGEX_PASS = "^\\d{6}$";

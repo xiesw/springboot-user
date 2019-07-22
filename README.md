@@ -16,6 +16,9 @@
 
 ## 技术演进记录  
 
+**1.18.1-RELEASE** 
+代码优化：1、修复注册用户名正则校验规则的 BUG（正确的规则：6-30位长度的字母及数字组合）；2、将 MyBatis 的 Mapper 类移入独立的 mapper 目录，并修改对应日志中的路径；3、MySQL 连接增加时区的配置参数，避免数据库的创建及更新时间错误；4、优化定时任务的执行频率，减少日志的打印；5、用户信息更新采用对象的形式而非直接参数的形式。
+
 **1.18.0-RELEASE**  
 SpringBoot添加自定义规则校验器注解  
 Bean Validation 是一个数据验证规范，属于 Java EE 6 的子规范，规范的参考实现为 hibernate-validator，也是 Spring 框架推荐使用的实现。AbstractMessageInterpolator 消息解析有优先顺序，从高到底：ValidationMessages\*.properties > ContributorValidationMessages\*.properties > org.hibernate.validator.ValidationMessages\*.properties 顺序。  
