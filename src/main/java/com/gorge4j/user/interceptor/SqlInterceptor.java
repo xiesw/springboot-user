@@ -20,6 +20,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.springframework.stereotype.Component;
+import com.gorge4j.user.annotation.SqlPrint;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -71,6 +72,12 @@ public class SqlInterceptor implements Interceptor {
         long start = System.currentTimeMillis();
         // 继续执行原目标方法
         returnValue = invocation.proceed();
+        // 获取实体类
+        Class<?> parameterType = getParameterType(mappedStatement);
+        /** 判断实体类上是否包含 @SqlPrint 注解，不包含的话直接返回 */
+        if (!hasSqlPrintAnnotation(parameterType)) {
+            return returnValue;
+        }
         long end = System.currentTimeMillis();
         long time = (end - start);
         /** 当 SQL 执行大于 1 毫秒时打印 SQL，所以也可以用于慢 SQL 的打印及监控 */
@@ -191,6 +198,19 @@ public class SqlInterceptor implements Interceptor {
         }
         // 返回组装好的 SQL
         return sql;
+    }
+    
+    /** 获取实体对象类：class com.gorge4j.user.entity.UserManageDemoMyBatis */
+    private Class<?> getParameterType(MappedStatement statement) {
+        if (statement.getParameterMap() == null || statement.getParameterMap().getType() == null) {
+            return null;
+        }
+        return statement.getParameterMap().getType();
+    }
+
+    /** 判断实体类上是否包含自定义的 SQl 打印的注解 @SqlPrint */
+    private static boolean hasSqlPrintAnnotation(Class<?> classType) {
+        return classType == null ? Boolean.FALSE : classType.isAnnotationPresent(SqlPrint.class);
     }
 
 }

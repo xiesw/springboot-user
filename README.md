@@ -16,6 +16,10 @@
 
 ## 技术演进记录  
 
+**1.19.1-RELEASE**  
+代码优化：在SpringBoot集成MyBatis拦截器插件实现SQL日志打印的基础上，增加了拦截时仅针对包含注解 @SqlPrint 的对象才进行日志的打印。  
+增加这个有场景的实例是为了方便大家加深对注解的理解。需要注意的是，因为注解是添加在实体类上，这意味着只有对包含注解的实体类进行操作时才能正常打印日志。简单来说，就是注解 @SqlPrint 是添加在 UserManageDemoMyBatis 类上，只有 UserServiceMyBatisImpl 的 modify 方法中对数据库的操作是基于对对象 UserManageDemoMyBatis 的操作，所以从功能上来说只有在修改用户密码时才会打印日志，而上一个版本中是打印所有的 SQL 日志，理解注解需留意其中的差异。
+
 **1.19.0-RELEASE**  
 SpringBoot集成MyBatis拦截器插件实现SQL日志打印    
 MyBatis 组件允许你在已映射语句执行过程中的某一点进行拦截调用。默认情况下，MyBatis 允许使用插件来拦截的方法调用包括：  

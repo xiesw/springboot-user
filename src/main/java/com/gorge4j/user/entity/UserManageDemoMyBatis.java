@@ -3,6 +3,7 @@ package com.gorge4j.user.entity;
 import java.io.Serializable;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
+import com.gorge4j.user.annotation.SqlPrint;
 import lombok.Data;
 
 /**
@@ -16,6 +17,7 @@ import lombok.Data;
  * @version v1.0
  */
 
+@SqlPrint
 @Data
 public class UserManageDemoMyBatis implements Serializable {
 
