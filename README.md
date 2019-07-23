@@ -16,6 +16,23 @@
 
 ## 技术演进记录  
 
+**1.19.0-RELEASE**  
+SpringBoot集成MyBatis拦截器插件实现SQL日志打印    
+MyBatis 组件允许你在已映射语句执行过程中的某一点进行拦截调用。默认情况下，MyBatis 允许使用插件来拦截的方法调用包括：  
+
+>* Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)  
+>* ParameterHandler (getParameterObject, setParameters)  
+>* ResultSetHandler (handleResultSets, handleOutputParameters)  
+>* StatementHandler (prepare, parameterize, batch, update, query)  
+
+方法的作用分别如下：  
+>* Executor - MyBatis 执行器，是MyBatis 调度的核心，负责SQL语句的生成和查询缓存的维护；  
+>* ParameterHandler - 负责对用户传递的参数转换成 JDBC Statement 所需要的参数； 
+>* ResultSetHandler - 负责将 JDBC 返回的 ResultSet 结果集对象转换成 List 类型的集合；  
+>* StatementHandler - 封装了 JDBC Statement 操作，负责对 JDBC statement 的操作，如设置参数、将 Statement 结果集转换成 List 集合。  
+
+通过 MyBatis 提供的强大机制，使用插件是非常简单的，只需实现 Interceptor 接口，并指定想要拦截的方法签名即可。
+
 **1.18.1-RELEASE** 
 代码优化：1、修复注册用户名正则校验规则的 BUG（正确的规则：6-30位长度的字母及数字组合）；2、将 MyBatis 的 Mapper 类移入独立的 mapper 目录，并修改对应日志中的路径；3、MySQL 连接增加时区的配置参数，避免数据库的创建及更新时间错误；4、优化定时任务的执行频率，减少日志的打印；5、用户信息更新采用对象的形式而非直接参数的形式。
 
