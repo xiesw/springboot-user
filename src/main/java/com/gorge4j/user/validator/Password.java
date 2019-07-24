@@ -36,6 +36,9 @@ public @interface Password {
     public Class<? extends Payload>[] payload() default {};
 
     /** 校验器 Validator 直接写在了注解内部，也可以在外面实现，然后 @Constraint(validatedBy = {Validator.class}) 依赖外部的校验器即可 */
+    /**
+     * @author guoyingxia
+     */
     public static class Validator implements ConstraintValidator<Password, String> {
 
         @Override
@@ -43,6 +46,7 @@ public @interface Password {
             // Do nothing
         }
 
+        @Override
         public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
             if (StringUtils.isBlank(value)) {
                 return false;

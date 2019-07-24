@@ -16,6 +16,9 @@
 
 ## 技术演进记录  
 
+**1.19.2-RELEASE**  
+代码优化：1、按照阿里巴巴的编码规范，给部分类加上了 @Override 及 @author；2、增加了 MyBatis 插件（拦截器）相关的参考链接。
+
 **1.19.1-RELEASE**  
 代码优化：在SpringBoot集成MyBatis拦截器插件实现SQL日志打印的基础上，增加了拦截时仅针对包含注解 @SqlPrint 的对象才进行日志的打印。  
 增加这个有场景的实例是为了方便大家加深对注解的理解。需要注意的是，因为注解是添加在实体类上，这意味着只有对包含注解的实体类进行操作时才能正常打印日志。简单来说，就是注解 @SqlPrint 是添加在 UserManageDemoMyBatis 类上，只有 UserServiceMyBatisImpl 的 modify 方法中对数据库的操作是基于对对象 UserManageDemoMyBatis 的操作，所以从功能上来说只有在修改用户密码时才会打印日志，而上一个版本中是打印所有的 SQL 日志，理解注解需留意其中的差异。
@@ -35,7 +38,7 @@ MyBatis 组件允许你在已映射语句执行过程中的某一点进行拦截
 >* ResultSetHandler - 负责将 JDBC 返回的 ResultSet 结果集对象转换成 List 类型的集合；  
 >* StatementHandler - 封装了 JDBC Statement 操作，负责对 JDBC statement 的操作，如设置参数、将 Statement 结果集转换成 List 集合。  
 
-通过 MyBatis 提供的强大机制，使用插件是非常简单的，只需实现 Interceptor 接口，并指定想要拦截的方法签名即可。
+通过 MyBatis 提供的强大机制，使用插件是非常简单的，只需实现 Interceptor 接口，并指定想要拦截的方法签名即可。MyBatis 官网关于插件（拦截器）的介绍 [点击查看](http://www.mybatis.org/mybatis-3/zh/configuration.html#plugins)
 
 **1.18.1-RELEASE** 
 代码优化：1、修复注册用户名正则校验规则的 BUG（正确的规则：6-30位长度的字母及数字组合）；2、将 MyBatis 的 Mapper 类移入独立的 mapper 目录，并修改对应日志中的路径；3、MySQL 连接增加时区的配置参数，避免数据库的创建及更新时间错误；4、优化定时任务的执行频率，减少日志的打印；5、用户信息更新采用对象的形式而非直接参数的形式。
